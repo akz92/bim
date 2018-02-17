@@ -1,0 +1,237 @@
+body {
+  margin: 0;
+}
+/**
+ *  Theme template for electron-navigation.
+ *  @tutorial
+ *      1. If you want to override the core styles (the ones commented out) you will need to use the '!important' keyword.
+ *      Example:
+ *          .nav-icons {
+ *              fill: #123456!important;
+ *          }
+ *      2. Otherwise feel free to add any other styles you wish without the need of the '!important' keyword.
+ *      Example:
+ *          #nav-body-tabs {
+ *              background-color: whitesmoke;
+ *          }
+ *      3. Every element you can style is shown below separately, however, you can combine like styles,
+ *         and add pseudo selectors like ':hover', ':focus', etc... to any of the elements you wish. Remember
+ *         the '!important' keyword is also needed for the pseudo selectors if you are overriding core styles.
+ *      4. Only override core styles if needed as most are there for correct functionality.
+ */
+
+
+/* effects: #nav-ctrls-back, #nav-ctrls-forward, #nav-ctrls-reload, #nav-tabs-add, .nav-tabs-favicon, .nav-tabs-close */
+
+.nav-icons {
+  /* fill:#000; width:24px; height:24px; */
+  fill: #606060 !important;
+  width: 22px !important;
+  height: 22px !important;
+}
+
+.nav-icons:hover {
+  fill: #000 !important;
+}
+
+
+/* for when no history on: #nav-ctrls-back, #nav-ctrls-forward */
+
+.nav-icons.disabled {
+  /* pointer-events:none;	opacity:0.5; */
+}
+
+#nav-body-ctrls .nav-icons {
+  margin: 0 4px;
+}
+
+
+/* container that holds: #nav-ctrls-back, #nav-ctrls-forward, #nav-ctrls-reload, #nav-ctrls-url */
+
+#nav-body-ctrls {
+  /* display:flex; align-items:center; */
+  background-color: #f5f5f5;
+  padding: 10px;
+  font-family: arial;
+  border-bottom: 1px solid #e2e2e2;
+  box-sizing: border-box;
+  height: 34px;
+}
+
+
+/* container that holds: #nav-tabs-add, .nav-tabs-tab */
+
+#nav-body-tabs {
+  /* display:flex; align-items:center; overflow:auto;	min-height:32px; */
+  background: rgba(211, 211, 211, 0.5);
+  height: 38px;
+  font-family: arial;
+  padding: 0 10px 0 80px;
+  overflow-y: hidden !important;
+}
+
+
+/* container that holds: .nav-views-view */
+
+#nav-body-views {
+  /* display:flex; align-items:center; */
+  flex: 1;
+}
+
+
+/* back button, grouped in: .nav-icons */
+
+#nav-ctrls-back {
+  /* fill:#000; width:24px; height:24px; */
+}
+
+
+/* back button with no history, grouped in: .nav-icons.disabled */
+
+#nav-ctrls-back.disabled {
+  /* pointer-events:none;	opacity:0.5; */
+}
+
+
+/* forward button, grouped in: .nav-icons */
+
+#nav-ctrls-forward {
+  /* fill:#000; width:24px; height:24px; */
+}
+
+
+/* forward button with no history, grouped in: .nav-icons.disabled */
+
+#nav-ctrls-forward.disabled {
+  /* pointer-events:none;	opacity:0.5; */
+}
+
+
+/* reload button, grouped in: .nav-icons */
+
+#nav-ctrls-reload {
+  /* fill:#000; width:24px; height:24px; */
+}
+
+
+/* address text input bar */
+
+#nav-ctrls-url{
+  /* box-sizing:border-box; flex:1; height:24px; */
+  box-shadow: 0 0 5px #e4e4e4;
+  border: 0;
+  border-radius: 3px;
+  margin-left: 8px;
+  font-size: 11pt;
+  outline: none;
+  padding-left: 10px;
+  color: #b7b7b7;
+  background-position: left;
+  background-size: 35px 100%;
+  background-repeat: no-repeat;
+  background-color: #fff;
+}
+
+
+#nav-ctrls-url:focus {
+  outline: -webkit-focus-ring-color auto 2px
+}
+
+
+/* new tab button, grouped in: .nav-icons */
+
+#nav-tabs-add {
+  /* fill:#000; width:24px; height:24px; */
+  margin: 5px;
+}
+
+
+/* webview hidden, core styles here shouldn't be messed with */
+
+.nav-views-view {
+  /* flex:0 1; width:0; height:0; */
+}
+
+
+/* webview shown, core styles here shouldn't be messed with */
+
+.nav-views-view.active {
+  /* flex:1; width:100%; height:100%; */
+}
+
+
+/* regular inactive tab */
+
+.nav-tabs-tab {
+  /* display:flex; align-items:center; min-width:60px; width:180px; min-height:20px; */
+  height: 38px;
+}
+
+.nav-tabs-tab:not(:first-of-type) {
+  border-left: 1px solid #dcdcdc;
+}
+
+.nav-tabs-tab:last-of-type {
+  border-right: 1px solid #dcdcdc;
+}
+
+/* active tab */
+
+.nav-tabs-tab.active {
+  background: rgba(195, 195, 195, 0.5);
+}
+
+
+/* favicon at the left of tabs */
+
+.nav-tabs-favicon {
+  /* fill:#000; width:24px; height:24px; align-content:flex-start; */
+  margin: 6px;
+}
+
+
+/* title at the left middle of tabs */
+
+.nav-tabs-title {
+  /* flex:1; cursor:default; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; */
+  padding-left: 5px;
+  font-style: normal;
+  font-size: 12px;
+  color: #606060;
+}
+
+.nav-tabs-title:hover {
+  color: #000;
+}
+
+
+/* close button at the right end of tabs */
+
+.nav-tabs-close {
+  /* fill:#000; width:24px; height:24px; align-content:flex-end; */
+  height: 16px !important;
+  margin: 0px !important;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.2s linear;
+}
+
+.nav-tabs-tab:hover .nav-tabs-close {
+  visibility: visible;
+  opacity: 1;
+}
+
+.nav-tabs-close:hover {
+  fill: #dc143c;
+}
+
+
+/* tab loading animation, applied to: .nav-tabs-favicon */
+
+@keyframes nav-spin {
+  /* 0% {transform:rotate(0deg);} 100% {transform:rotate(360deg);} */
+}
+
+.hidden {
+  display: none !important;
+}

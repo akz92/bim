@@ -1,0 +1,22 @@
+{
+  "name": "bim",
+  "version": "0.1.0",
+  "description": "Vim-inspired browser",
+  "main": "main.js",
+  "productName": "Bim",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vim",
+    "browser"
+  ],
+  "author": "Lucas A. Moulin",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^1.8.2",
+    "electron-navigation": "akz92/electron-navigation#fix-url-update",
+    "mousetrap": "^1.6.1"
+  }
+}
