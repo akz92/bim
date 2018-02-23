@@ -7,11 +7,13 @@ let mainWindow
 function createWindow() {
   mainWindow = new BrowserWindow({width: 1024, height: 768, titleBarStyle: 'hiddenInset' })
 
-  mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
+  mainWindow.loadURL('http://localhost:8080')
+  // mainWindow.loadURL(url.format({
+  //   pathname: path.join(__dirname, 'dist/index.html'),
+  //   protocol: 'file:',
+  //   slashes: true
+  // }))
+  mainWindow.openDevTools()
 }
 
 function buildMenu() {
