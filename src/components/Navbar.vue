@@ -1,20 +1,20 @@
 v<template>
   <div id="navbar">
-    <i id="navbar-back" class="nav-icons" title="Go back" v-bind:class="{ disabled: !canGoBack }" @click="goBack">
+    <i id="navbar-back" class="nav-icons" title="Go back" v-bind:class="{ disabled: !canGoBack }" @click="setGoBack(true)">
       <svg height="100%" viewBox="0 0 24 24">
         <path d="M0 0h24v24H0z" fill="none"/>
         <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
       </svg>
     </i>
 
-    <i id="navbar-forward" class="nav-icons" title="Go forward" v-bind:class="{ disabled: !canGoForward }">
+    <i id="navbar-forward" class="nav-icons" title="Go forward" v-bind:class="{ disabled: !canGoForward }" @click="setGoForward(true)">
       <svg height="100%" viewBox="0 0 24 24">
         <path d="M0 0h24v24H0z" fill="none"/>
         <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
       </svg>
     </i>
 
-    <i id="navbar-reload" class="nav-icons" title="Reload page" @click="reload">
+    <i id="navbar-reload" class="nav-icons" title="Reload page" @click="toggleReload">
       <svg v-if="loading" height="100%" viewBox="0 0 24 24">
         <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
         <path d="M0 0h24v24H0z" fill="none"/>
@@ -31,8 +31,8 @@ v<template>
       type="text"
       title="Enter an address or search term"
       :value="inputUrl"
-      v-on:keyup.enter.exact="goTo"
-      v-on:keyup.enter="$event.target.blur()"
+      @keyup.enter.exact="setUrl($event.target.value)"
+      @keyup.enter="$event.target.blur()"
     />
   </div>
 </template>
@@ -47,6 +47,9 @@ export default {
       inputUrl: ''
     }
   },
+  mounted: function () {
+    this.inputUrl = this.url
+  },
   computed: {
     ...mapGetters([
       'url',
@@ -56,10 +59,20 @@ export default {
     ])
   },
   methods: {
-    reload: function () { this.$emit('toggle-reload') },
-    goBack: function () { this.$emit('go-back') },
-    goForward: function () { this.$emit('go-forward') },
-    goTo: function () { this.$emit('url-changed', this.$refs.address.value) }
+    ...mapActions([
+      'setReload',
+      'setStop',
+      'setGoBack',
+      'setGoForward',
+      'setUrl'
+    ]),
+    toggleReload: function () {
+      if (this.loading) {
+        this.setStop(true)
+      } else {
+        this.setReload(true)
+      }
+    }
   },
   watch: {
     url: function (newUrl) { this.inputUrl = newUrl }

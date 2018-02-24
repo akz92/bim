@@ -1,49 +1,75 @@
 <template>
-  <webview ref="webview" :src="url" v-show="active"></webview>
+  <webview
+    ref="webview"
+    :src="url"
+    v-show="active"
+    @page-title-set="setTitle($event.title, index)"
+    @did-start-loading="setLoading(true, index)"
+    @did-stop-loading="setLoading(false, index)"
+    @load-commit="evaluateNavigation"
+    @did-navigate-in-page="setUrl($event.url, index)"
+  ></webview>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Tab',
   props: ['index'],
-  mounted: function () {
-    const webview = this.$refs.webview
-
-    webview.addEventListener('page-title-set', this.titleSet)
-    webview.addEventListener('did-start-loading', this.startedLoading)
-    webview.addEventListener('did-stop-loading', this.stoppedLoading)
-    webview.addEventListener('load-commit', this.evaluateNavigation)
-    webview.addEventListener('did-navigate-in-page', this.urlChanged)
-  },
   methods: {
-    titleSet: function (e) { this.$emit('title-changed', e.title) },
-    startedLoading: function () { this.$emit('is-loading', true) },
-    stoppedLoading: function () { this.$emit('is-loading', false) },
-    urlChanged: function (e) { this.$emit('url-changed', e.url) },
+    ...mapActions([
+      'setTitle',
+      'setUrl',
+      'setLoading',
+      'setCanGoBack',
+      'setCanGoForward',
+      'setReload',
+      'setStop',
+      'setGoBack',
+      'setGoForward'
+    ]),
     evaluateNavigation: function () {
-      this.$emit('can-go-back', this.$refs.webview.canGoBack())
-      this.$emit('can-go-forward', this.$refs.webview.canGoForward())
+      this.setCanGoBack(this.$refs.webview.canGoBack(), this.index)
+      this.setCanGoForward(this.$refs.webview.canGoForward(), this.index)
     }
   },
   computed: {
-    ...mapGetters([
-      'tab',
-      'activeIndex'
-    ]),
-    url: function () { this.tab(this.index).url },
-    active: function () { return this.index == this.activeIndex }
+    ...mapGetters(['tab']),
+    ...mapState(['activeIndex']),
+    active: function () { return this.index == this.activeIndex },
+    currentTab: function () { return this.tab(this.index) },
+    url: function () { return this.currentTab.url },
+    reload : function () { return this.currentTab.reload },
+    stop : function () { return this.currentTab.stop },
+    goBack : function () { return this.currentTab.goBack },
+    goForward : function () { return this.currentTab.goForward }
   },
   watch: {
-    // TODO: Figure out how to trigger reload
-    // 'tab.loading': function (loading) {
-    //   if (loading) {
-    //     this.$refs.webview.loadURL(this.url)
-    //   } else {
-    //     this.$refs.webview.stop()
-    //   }
-    // }
+    reload: function (reload) {
+      if (reload) {
+        this.$refs.webview.loadURL(this.url)
+        this.setReload(false)
+      }
+    },
+    stop: function (stop) {
+      if (stop) {
+        this.$refs.webview.stop()
+        this.setStop(false)
+      }
+    },
+    goBack: function (goBack) {
+      if (goBack) {
+        this.$refs.webview.goBack()
+        this.setGoBack(false)
+      }
+    },
+    goForward: function (goForward) {
+      if (goForward) {
+        this.$refs.webview.goForward()
+        this.setGoForward(false)
+      }
+    }
   }
 }
 </script>

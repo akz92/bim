@@ -9,44 +9,110 @@ export default new Vuex.Store({
     activeIndex: null
   },
   getters: {
-    tabs: (state) => state.tabs,
-    activeIndex: (state) => state.activeIndex,
-    url: (state) => 'url',
-    loading: (state) => true,
-    canGoBack: (state) => true,
-    canGoForward: (state) => false,
-    tab: (state) => (index) => state.tabs[index]
+    tab: (state) => (index) => state.tabs[index],
+    // TODO: Improve activeTab properties getters
+    url: (state) => state.tabs[state.activeIndex] && state.tabs[state.activeIndex].url,
+    loading: (state) => state.tabs[state.activeIndex] && state.tabs[state.activeIndex].loading,
+    canGoBack: (state) => state.tabs[state.activeIndex] && state.tabs[state.activeIndex].canGoBack,
+    canGoForward: (state) => state.tabs[state.activeIndex] && state.tabs[state.activeIndex].canGoForward,
   },
   actions: {
-    addTab ({ commit }, customConfig = {}) {
-      const config = {
+    addTab ({ commit, state }, options = {}) {
+      const tab = {
         url: '',
         loading: false,
         title: '...',
         canGoBack: false,
         canGoForward: false,
-        ...customConfig,
+        reload: false,
+        stop: false,
+        goBack: false,
+        goForward: false,
+        ...options
       }
 
-      commit('ADD_TAB', config)
-      commit('SET_ACTIVE_INDEX', 0)
+      commit('ADD_TAB', tab)
+      commit('SET_ACTIVE_INDEX', state.tabs.indexOf(tab))
     },
-    setActiveIndex ({ commit }, index) {
+    closeTab ({ commit, state }, index) {
+      commit('CLOSE_TAB', index)
+
+      if (index > state.tabs.length - 1) {
+        commit('SET_ACTIVE_INDEX', index - 1) // TODO: call setActiveIndex
+      }
+    },
+    setActiveIndex ({ commit, state }, index) {
       commit('SET_ACTIVE_INDEX', index)
     },
-    changeUrl ({ commit }, url) {
-      commit('CHANGE_URL', url)
+    setUrl ({ commit, state }, url, index) {
+      index = index || state.activeIndex
+      commit('SET_URL', { url, index })
+    },
+    setTitle ({ commit, state }, title, index) {
+      index = index || state.activeIndex
+      commit('SET_TITLE', { title, index })
+    },
+    setLoading ({ commit, state }, loading, index) {
+      index = index || state.activeIndex
+      commit('SET_LOADING', { loading, index })
+    },
+    setCanGoBack ({ commit, state }, canGoBack, index) {
+      index = index || state.activeIndex
+      commit('SET_CAN_GO_BACK', { canGoBack, index })
+    },
+    setCanGoForward ({ commit, state }, canGoForward, index) {
+      index = index || state.activeIndex
+      commit('SET_CAN_GO_FORWARD', { canGoForward, index })
+    },
+    setReload ({ commit }, reload) {
+      commit('SET_RELOAD', reload)
+    },
+    setStop ({ commit }, stop) {
+      commit('SET_STOP', stop)
+    },
+    setGoBack ({ commit }, goBack) {
+      commit('SET_GO_BACK', goBack)
+    },
+    setGoForward ({ commit }, goForward) {
+      commit('SET_GO_FORWARD', goForward)
     }
   },
   mutations: {
-    ADD_TAB (state, tabConfig) {
-      state.tabs = [...tabs, tabConfig]
+    ADD_TAB (state, tab) {
+      state.tabs.push(tab)
+    },
+    CLOSE_TAB (state, index) {
+      state.tabs.splice(index, 1)
     },
     SET_ACTIVE_INDEX (state, index) {
       state.activeIndex = index
     },
-    CHANGE_URL (state, url) {
-      state.tabs[state.activeIndex].url = url
+    SET_URL (state, { url, index }) {
+      state.tabs[index].url = url
+    },
+    SET_TITLE (state, { title, index }) {
+      state.tabs[index].title = title
+    },
+    SET_LOADING (state, { loading, index }) {
+      state.tabs[index].loading = loading
+    },
+    SET_CAN_GO_BACK (state, { canGoBack, index }) {
+      state.tabs[index].canGoBack = canGoBack
+    },
+    SET_CAN_GO_FORWARD (state, { canGoForward, index }) {
+      state.tabs[index].canGoForward = canGoForward
+    },
+    SET_RELOAD (state, reload) {
+      state.tabs[state.activeIndex].reload = reload
+    },
+    SET_STOP (state, stop) {
+      state.tabs[state.activeIndex].stop = stop
+    },
+    SET_GO_BACK (state, goBack) {
+      state.tabs[state.activeIndex].goBack = goBack
+    },
+    SET_GO_FORWARD (state, goForward) {
+      state.tabs[state.activeIndex].goForward = goForward
     }
   }
 })

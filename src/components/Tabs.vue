@@ -1,6 +1,6 @@
 <template>
     <div id="tabs">
-      <span v-for="(tab, index) in tabs" class="tab" v-bind:class="{ active: tab.active }" @click="activate(index)">
+      <span v-for="(tab, index) in tabs" class="tab" v-bind:class="{ active: index === activeIndex }" @click="setActiveIndex(index)">
         <i class="tab-favicon nav-icons" v-bind:class="{ loading: tab.loading }">
           <svg height="100%" viewBox="0 0 24 24">
             <path d="M0 0h24v24H0z" fill="none"/>
@@ -10,7 +10,7 @@
 
         <i class="tab-title">{{tab.title}}</i>
 
-        <i class="tab-close nav-icons" @click.stop="close(index)">
+        <i class="tab-close nav-icons" @click.stop="closeTab(index)">
           <svg height="100%" viewBox="0 0 24 24">
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
             <path d="M0 0h24v24H0z" fill="none"/>
@@ -18,7 +18,7 @@
         </i>
       </span>
 
-      <i id="add" class="nav-icons" title="Add new tab" @click="add">
+      <i id="add" class="nav-icons" title="Add new tab" @click="addTab">
         <svg height="100%" viewBox="0 0 24 24">
           <path d="M0 0h24v24H0z" fill="none"/>
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
@@ -28,14 +28,23 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
   name: 'Tabs',
-  props: ['tabs'],
-  methods: {
-    add: function () { this.$emit('add-tab') },
-    close: function (index) { this.$emit('close-tab', index) },
-    activate: function(index) { this.$emit('activate-tab', index) }
+  computed: {
+    ...mapState([
+      'tabs',
+      'activeIndex'
+    ])
   },
+  methods: {
+    ...mapActions([
+      'addTab',
+      'closeTab',
+      'setActiveIndex'
+    ])
+  }
 }
 </script>
 
