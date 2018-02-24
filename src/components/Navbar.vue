@@ -1,13 +1,13 @@
 v<template>
   <div id="navbar">
-    <i id="navbar-back" class="nav-icons" title="Go back" v-bind:class="{ disabled: !canGoBack }" @click="setGoBack(true)">
+    <i id="navbar-back" class="nav-icons" title="Go back" v-bind:class="{ disabled: !canGoBack }" @click="setGoBack({ index: activeIndex, goBack: true })">
       <svg height="100%" viewBox="0 0 24 24">
         <path d="M0 0h24v24H0z" fill="none"/>
         <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
       </svg>
     </i>
 
-    <i id="navbar-forward" class="nav-icons" title="Go forward" v-bind:class="{ disabled: !canGoForward }" @click="setGoForward(true)">
+    <i id="navbar-forward" class="nav-icons" title="Go forward" v-bind:class="{ disabled: !canGoForward }" @click="setGoForward({ index: activeIndex, goForward: true })">
       <svg height="100%" viewBox="0 0 24 24">
         <path d="M0 0h24v24H0z" fill="none"/>
         <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
@@ -71,16 +71,16 @@ export default {
     ]),
     toggleReload: function () {
       if (this.loading) {
-        this.setStop(true)
+        this.setStop({ index: this.activeIndex, stop: true })
       } else {
-        this.setReload(true)
+        this.setReload({ index: this.activeIndex, reload: true })
       }
     },
     submit: function () {
       var url = this.$refs.address.value;
 
       if (typeof this.activeIndex === 'number') {
-        this.setUrl(url)
+        this.setUrl({ index: this.activeIndex, url })
       } else {
         this.addTab({ url })
       }

@@ -3,11 +3,11 @@
     ref="webview"
     :src="url"
     v-show="active"
-    @page-title-set="setTitle($event.title, index)"
-    @did-start-loading="setLoading(true, index)"
-    @did-stop-loading="setLoading(false, index)"
+    @page-title-set="setTitle({ index, title: $event.title })"
+    @did-start-loading="setLoading({ index, loading: true })"
+    @did-stop-loading="setLoading({ index, loading: false })"
     @load-commit="evaluateNavigation"
-    @did-navigate-in-page="setUrl($event.url, index)"
+    @did-navigate-in-page="setUrl({ index, url: $event.url })"
   ></webview>
 </template>
 
@@ -30,8 +30,8 @@ export default {
       'setGoForward'
     ]),
     evaluateNavigation: function () {
-      this.setCanGoBack(this.$refs.webview.canGoBack(), this.index)
-      this.setCanGoForward(this.$refs.webview.canGoForward(), this.index)
+      this.setCanGoBack({ index: this.index, canGoBack: this.$refs.webview.canGoBack() })
+      this.setCanGoForward({ index: this.index, canGoForward: this.$refs.webview.canGoForward() })
     }
   },
   computed: {

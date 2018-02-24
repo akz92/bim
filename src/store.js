@@ -50,25 +50,19 @@ export default new Vuex.Store({
     setActiveIndex ({ commit, state }, index) {
       commit('SET_ACTIVE_INDEX', index)
     },
-    setUrl ({ commit, state }, url, index) {
-      index = index || state.activeIndex
-
+    setUrl ({ commit, state }, { url, index }) {
       commit('SET_URL', { url: formatUrl(url), index })
     },
-    setTitle ({ commit, state }, title, index) {
-      index = index || state.activeIndex
+    setTitle ({ commit, state }, { title, index }) {
       commit('SET_TITLE', { title, index })
     },
-    setLoading ({ commit, state }, loading, index) {
-      index = index || state.activeIndex
+    setLoading ({ commit, state }, { loading, index }) {
       commit('SET_LOADING', { loading, index })
     },
-    setCanGoBack ({ commit, state }, canGoBack, index) {
-      index = index || state.activeIndex
+    setCanGoBack ({ commit, state }, { canGoBack, index }) {
       commit('SET_CAN_GO_BACK', { canGoBack, index })
     },
-    setCanGoForward ({ commit, state }, canGoForward, index) {
-      index = index || state.activeIndex
+    setCanGoForward ({ commit, state }, { canGoForward, index }) {
       commit('SET_CAN_GO_FORWARD', { canGoForward, index })
     },
     setReload ({ commit }, reload) {
