@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import urlRegex from 'url-regex'
 
 Vue.use(Vuex)
 
@@ -17,9 +18,9 @@ export default new Vuex.Store({
     canGoForward: (state) => state.tabs[state.activeIndex] && state.tabs[state.activeIndex].canGoForward,
   },
   actions: {
-    addTab ({ commit, state }, options = {}) {
+    addTab ({ commit, dispatch, state }, options = {}) {
       const tab = {
-        url: '',
+        url: null,
         loading: false,
         title: '...',
         canGoBack: false,
@@ -30,9 +31,12 @@ export default new Vuex.Store({
         goForward: false,
         ...options
       }
+      debugger;
+
+      if (tab.url) { tab.url = formatUrl(tab.url) }
 
       commit('ADD_TAB', tab)
-      commit('SET_ACTIVE_INDEX', state.tabs.indexOf(tab))
+      dispatch('setActiveIndex', state.tabs.indexOf(tab))
     },
     closeTab ({ commit, dispatch, state }, index) {
       commit('CLOSE_TAB', index)
@@ -48,7 +52,8 @@ export default new Vuex.Store({
     },
     setUrl ({ commit, state }, url, index) {
       index = index || state.activeIndex
-      commit('SET_URL', { url, index })
+
+      commit('SET_URL', { url: formatUrl(url), index })
     },
     setTitle ({ commit, state }, title, index) {
       index = index || state.activeIndex
@@ -118,3 +123,14 @@ export default new Vuex.Store({
     }
   }
 })
+
+// TODO: Move to utilities folder
+function formatUrl (url) {
+  if(urlRegex({ strict: false, exact: true }).test(url)) {
+    url = (url.match(/^https?:\/\/.*/)) ? url : 'http://' + url
+  } else {
+    url = (!url.match(/^[a-zA-Z]+:\/\//)) ? 'https://www.google.com/search?q=' + url.replace(' ', '+') : url
+  }
+
+  return url
+}

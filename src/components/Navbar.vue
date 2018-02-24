@@ -79,7 +79,7 @@ export default {
     submit: function () {
       var url = this.$refs.address.value;
 
-      if (this.activeIndex) {
+      if (typeof this.activeIndex === 'number') {
         this.setUrl(url)
       } else {
         this.addTab({ url })
