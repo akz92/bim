@@ -27,7 +27,8 @@ export default {
       'setReload',
       'setStop',
       'setGoBack',
-      'setGoForward'
+      'setGoForward',
+      'setInspect'
     ]),
     evaluateNavigation: function () {
       var canGoBack = this.$refs.webview.canGoBack(),
@@ -66,6 +67,12 @@ export default {
       if (goForward) {
         this.$refs.webview.goForward()
         this.setGoForward(false)
+      }
+    },
+    'tab.inspect': function (inspect) {
+      if (inspect) {
+        this.$refs.webview.openDevTools()
+        this.setInspect(false)
       }
     }
   }

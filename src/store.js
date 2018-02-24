@@ -30,6 +30,7 @@ export default new Vuex.Store({
         stop: false,
         goBack: false,
         goForward: false,
+        inspect: false,
         ...options
       }
 
@@ -48,7 +49,11 @@ export default new Vuex.Store({
       }
     },
     setActiveIndex ({ commit, state }, index) {
-      commit('SET_ACTIVE_INDEX', index)
+      index = parseInt(index)
+
+      if ((index >= 0) && (index < state.tabs.length)) {
+        commit('SET_ACTIVE_INDEX', parseInt(index))
+      }
     },
     setUrl ({ commit, state }, { url, index }) {
       commit('SET_URL', { url: formatUrl(url), index })
@@ -76,6 +81,9 @@ export default new Vuex.Store({
     },
     setGoForward ({ commit }, goForward) {
       commit('SET_GO_FORWARD', goForward)
+    },
+    setInspect ({ commit }, inspect) {
+      commit('SET_INSPECT', inspect)
     }
   },
   mutations: {
@@ -114,6 +122,9 @@ export default new Vuex.Store({
     },
     SET_GO_FORWARD (state, goForward) {
       state.tabs[state.activeIndex].goForward = goForward
+    },
+    SET_INSPECT (state, inspect) {
+      state.tabs[state.activeIndex].inspect = inspect
     }
   },
   plugins: [createPersistedState()]

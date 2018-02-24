@@ -3,6 +3,7 @@
     <Tabs/>
     <Navbar/>
     <Tab v-for="(tab, index) in tabs" :key="index" :index="index"/>
+    <Commandbar/>
   </div>
 </template>
 
@@ -11,6 +12,7 @@ import { mapState, mapActions, mapGetters } from 'vuex';
 import Tabs from './components/Tabs'
 import Tab from './components/Tab'
 import Navbar from './components/Navbar'
+import Commandbar from './components/Commandbar'
 
 export default {
   name: 'App',
@@ -36,7 +38,8 @@ export default {
   components: {
     Tabs,
     Navbar,
-    Tab
+    Tab,
+    Commandbar
   }
 }
 </script>
