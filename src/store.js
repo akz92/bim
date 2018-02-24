@@ -31,7 +31,6 @@ export default new Vuex.Store({
         goForward: false,
         ...options
       }
-      debugger;
 
       if (tab.url) { tab.url = formatUrl(tab.url) }
 
