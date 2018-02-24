@@ -34,13 +34,13 @@ export default new Vuex.Store({
       commit('ADD_TAB', tab)
       commit('SET_ACTIVE_INDEX', state.tabs.indexOf(tab))
     },
-    closeTab ({ commit, state }, index) {
+    closeTab ({ commit, dispatch, state }, index) {
       commit('CLOSE_TAB', index)
 
       if (state.tabs.length < 1) {
-        commit('SET_ACTIVE_INDEX', null)
-      } else if (index > state.tabs.length - 1) {
-        commit('SET_ACTIVE_INDEX', index - 1) // TODO: call setActiveIndex
+        dispatch('setActiveIndex', null)
+      } else if (index <= state.activeIndex) {
+        dispatch('setActiveIndex', state.activeIndex - 1)
       }
     },
     setActiveIndex ({ commit, state }, index) {
