@@ -1,7 +1,7 @@
 <template>
   <webview
     ref="webview"
-    :src="url"
+    :src="tab.url"
     v-show="active"
     @page-title-set="setTitle({ index, title: $event.title })"
     @did-start-loading="setLoading({ index, loading: true })"
@@ -30,41 +30,39 @@ export default {
       'setGoForward'
     ]),
     evaluateNavigation: function () {
-      this.setCanGoBack({ index: this.index, canGoBack: this.$refs.webview.canGoBack() })
-      this.setCanGoForward({ index: this.index, canGoForward: this.$refs.webview.canGoForward() })
+      var canGoBack = this.$refs.webview.canGoBack(),
+          canGoForward = this.$refs.webview.canGoForward()
+
+      this.setCanGoBack({ index: this.index, canGoBack })
+      this.setCanGoForward({ index: this.index, canGoForward })
     }
   },
   computed: {
-    ...mapGetters(['tab']),
+    ...mapGetters({ findTab: 'tab' }),
     ...mapState(['activeIndex']),
     active: function () { return this.index == this.activeIndex },
-    currentTab: function () { return this.tab(this.index) },
-    url: function () { return this.currentTab.url },
-    reload : function () { return this.currentTab.reload },
-    stop : function () { return this.currentTab.stop },
-    goBack : function () { return this.currentTab.goBack },
-    goForward : function () { return this.currentTab.goForward }
+    tab: function () { return this.findTab(this.index) },
   },
   watch: {
-    reload: function (reload) {
-      if (reload) {
-        this.$refs.webview.loadURL(this.url)
+    'tab.reload': function (reload) {
+      if (reload && this.tab.url) {
+        this.$refs.webview.loadURL(this.tab.url)
         this.setReload(false)
       }
     },
-    stop: function (stop) {
+    'tab.stop': function (stop) {
       if (stop) {
         this.$refs.webview.stop()
         this.setStop(false)
       }
     },
-    goBack: function (goBack) {
+    'tab.goBack': function (goBack) {
       if (goBack) {
         this.$refs.webview.goBack()
         this.setGoBack(false)
       }
     },
-    goForward: function (goForward) {
+    'tab.goForward': function (goForward) {
       if (goForward) {
         this.$refs.webview.goForward()
         this.setGoForward(false)
@@ -76,7 +74,7 @@ export default {
 
 <style scoped>
 webview {
-  height: 100%;
+  height: calc(100% - 32px - 38px);
   width: 100%;
 }
 </style>
