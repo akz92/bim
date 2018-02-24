@@ -37,7 +37,9 @@ export default new Vuex.Store({
     closeTab ({ commit, state }, index) {
       commit('CLOSE_TAB', index)
 
-      if (index > state.tabs.length - 1) {
+      if (state.tabs.length < 1) {
+        commit('SET_ACTIVE_INDEX', null)
+      } else if (index > state.tabs.length - 1) {
         commit('SET_ACTIVE_INDEX', index - 1) // TODO: call setActiveIndex
       }
     },

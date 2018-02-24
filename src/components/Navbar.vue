@@ -14,7 +14,7 @@ v<template>
       </svg>
     </i>
 
-    <i id="navbar-reload" class="nav-icons" title="Reload page" @click="toggleReload">
+    <i id="navbar-reload" class="nav-icons" title="Reload page" v-bind:class="{ disabled: !activeIndex }" @click="toggleReload">
       <svg v-if="loading" height="100%" viewBox="0 0 24 24">
         <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
         <path d="M0 0h24v24H0z" fill="none"/>
@@ -31,14 +31,15 @@ v<template>
       type="text"
       title="Enter an address or search term"
       :value="inputUrl"
-      @keyup.enter.exact="setUrl($event.target.value)"
+      :v-bind:class="{ disabled: !activeIndex }"
+      @keyup.enter.exact="submit"
       @keyup.enter="$event.target.blur()"
     />
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'Navbar',
@@ -51,6 +52,7 @@ export default {
     this.inputUrl = this.url
   },
   computed: {
+    ...mapState(['activeIndex']),
     ...mapGetters([
       'url',
       'loading',
@@ -60,6 +62,7 @@ export default {
   },
   methods: {
     ...mapActions([
+      'addTab',
       'setReload',
       'setStop',
       'setGoBack',
@@ -71,6 +74,15 @@ export default {
         this.setStop(true)
       } else {
         this.setReload(true)
+      }
+    },
+    submit: function () {
+      var url = this.$refs.address.value;
+
+      if (this.activeIndex) {
+        this.setUrl(url)
+      } else {
+        this.addTab({ url })
       }
     }
   },
@@ -113,6 +125,11 @@ export default {
 
 #navbar-reload {
   fill:#000; width:24px; height:24px;
+}
+
+#navbar-reload.disabled {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 #navbar-url{
