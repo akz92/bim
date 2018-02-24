@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
 import urlRegex from 'url-regex'
 
 Vue.use(Vuex)
@@ -120,7 +121,8 @@ export default new Vuex.Store({
     SET_GO_FORWARD (state, goForward) {
       state.tabs[state.activeIndex].goForward = goForward
     }
-  }
+  },
+  plugins: [createPersistedState()]
 })
 
 // TODO: Move to utilities folder
