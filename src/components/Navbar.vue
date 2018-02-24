@@ -84,11 +84,11 @@ export default {
 #navbar {
   display:flex; align-items:center;
   background-color: #f5f5f5;
-  padding: 0 10px 0 80px;
+  padding: 10px;
   font-family: arial;
   border-bottom: 1px solid #e2e2e2;
   box-sizing: border-box;
-  height: 38px;
+  height: 32px;
 }
 
 #navbar-back {

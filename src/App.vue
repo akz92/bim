@@ -1,7 +1,7 @@
 <template>
   <div id="app" v-bind:style="{ width: width, height: height }">
-    <Navbar/>
     <Tabs/>
+    <Navbar/>
     <Tab v-for="(tab, index) in tabs" :key="index" :index="index"/>
   </div>
 </template>

@@ -54,10 +54,11 @@ export default {
   background: rgba(211, 211, 211, 0.5);
   display: flex;
   font-family: arial;
-  height: 32px;
+  height: 38px;
   min-height: 32px;
   overflow-y: hidden !important;
   overflow: auto;
+  padding: 0 10px 0 80px;
 }
 
 #add {
