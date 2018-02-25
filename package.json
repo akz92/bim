@@ -62,5 +62,31 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "build": {
+    "appId": "com.bim",
+    "productName": "Bim",
+    "files": [
+      "main.js",
+      "dist/",
+      "node_modules/",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "dist",
+      "output": "packages"
+    },
+    "protocols": [
+      {
+        "name": "URL",
+        "schemes": [
+          "http",
+          "https"
+        ]
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.productivity"
+    }
+  }
 }
