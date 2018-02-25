@@ -1,5 +1,15 @@
 <template>
-  <input id="statusbar" class="active" ref="statusbar" v-model="text" @keyup.enter.exact="submit" @keyup.enter="$event.target.blur()"/>
+  <input
+    id="commandbar"
+    ref="commandbar"
+    v-model="text"
+    v-if="active"
+    v-focus
+    @blur="setCommandbarActive(false)"
+    @keyup.enter.exact="submit"
+    @keyup.enter="blur"
+    @keyup.escape="blur"
+  />
 </template>
 
 <script>
@@ -14,11 +24,15 @@ export default {
     }
   },
   computed: {
-    ...mapState(['activeIndex'])
+    ...mapState({
+      activeIndex: 'activeIndex',
+      active: 'commandbarActive'
+    })
   },
   methods: {
     commandParser,
     ...mapActions([
+      'setCommandbarActive',
       'addTab',
       'setUrl',
       'closeTab',
@@ -41,7 +55,7 @@ export default {
       if (command.prefix === ':') {
         switch(command.action) {
           case 'open':
-            if (command.flag === 't') {
+            if ((command.flag === 't') || (typeof this.activeIndex !== 'number')) {
               this.addTab({ url: command.argument })
             } else {
               this.setUrl({ url: command.argument, index: this.activeIndex })
@@ -79,14 +93,25 @@ export default {
         }
       }
 
+      blur()
+    },
+    blur: function () {
       this.text = null
+      this.$refs.commandbar.blur()
+    }
+  },
+  directives: {
+    focus: {
+      inserted: function (el) {
+        el.focus()
+      }
     }
   }
 }
 </script>
 
 <style scoped>
-#statusbar {
+#commandbar {
   background: #efefef;
   border: 0;
   border-top: 1px solid #e2e2e2;
@@ -98,14 +123,9 @@ export default {
   padding: 0 0 0 5px;
   position: fixed;
   width: 100%;
-  display: none;
 }
 
-#statusbar:focus {
+#commandbar:focus {
   outline: none;
-}
-
-#statusbar.active {
-  display: inline;
 }
 </style>

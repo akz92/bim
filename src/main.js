@@ -3,8 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import store from './store'
+import Mousetrap from 'mousetrap'
 
 Vue.config.productionTip = false
+Vue.prototype.$mousetrap = Mousetrap
 
 /* eslint-disable no-new */
 new Vue({

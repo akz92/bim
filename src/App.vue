@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import Tabs from './components/Tabs'
 import Tab from './components/Tab'
 import Navbar from './components/Navbar'
@@ -25,14 +25,38 @@ export default {
   mounted: function () {
     window.addEventListener('resize', this.updateSize)
     this.updateSize()
+    this.handleShortcuts()
+    this.$mousetrap.bind('esc', this.setNormalMode)
   },
   computed: {
-    ...mapState(['tabs'])
+    ...mapState(['mode', 'tabs'])
   },
   methods: {
+    ...mapActions([
+      'setNormalMode',
+      'setInsertMode',
+      'setCommandbarActive'
+    ]),
     updateSize: function () {
       this.width = document.documentElement.clientWidth + 'px'
       this.height = document.documentElement.clientHeight + 'px'
+    },
+    activateCommandbar: function () {
+      this.setCommandbarActive(true)
+    },
+    handleShortcuts: function () {
+      if (this.mode == 'normal') {
+        this.$mousetrap.bind(':', this.activateCommandbar)
+        this.$mousetrap.bind('i', this.setInsertMode)
+      } else if (this.mode == 'insert') {
+        this.$mousetrap.unbind(':')
+        this.$mousetrap.unbind('i')
+      }
+    }
+  },
+  watch: {
+    mode: function () {
+      this.handleShortcuts()
     }
   },
   components: {

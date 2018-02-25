@@ -1,5 +1,8 @@
 <template>
   <webview
+    allowpopus
+    nodeintegration
+    preload="file:///Users/akz/dev/bim/src/components/webviewScript.js"
     ref="webview"
     :src="tab.url"
     v-show="active"
@@ -8,6 +11,7 @@
     @did-stop-loading="setLoading({ index, loading: false })"
     @load-commit="evaluateNavigation"
     @did-navigate-in-page="setUrl({ index, url: $event.url })"
+    @ipc-message="ipcHandler"
   ></webview>
 </template>
 
@@ -17,7 +21,20 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 export default {
   name: 'Tab',
   props: ['index'],
+  computed: {
+    ...mapGetters({ findTab: 'tab' }),
+    ...mapState(['mode', 'activeIndex']),
+    active: function () { return this.index == this.activeIndex },
+    tab: function () { return this.findTab(this.index) },
+  },
   methods: {
+    ipcHandler: function (ev) {
+      if (ev.channel === 'focus') {
+        this.setInsertMode()
+      } else if (ev.channel === 'blur') {
+        this.setNormalMode()
+      }
+    },
     ...mapActions([
       'setTitle',
       'setUrl',
@@ -28,7 +45,9 @@ export default {
       'setStop',
       'setGoBack',
       'setGoForward',
-      'setInspect'
+      'setInspect',
+      'setInsertMode',
+      'setNormalMode'
     ]),
     evaluateNavigation: function () {
       var canGoBack = this.$refs.webview.canGoBack(),
@@ -38,13 +57,12 @@ export default {
       this.setCanGoForward({ index: this.index, canGoForward })
     }
   },
-  computed: {
-    ...mapGetters({ findTab: 'tab' }),
-    ...mapState(['activeIndex']),
-    active: function () { return this.index == this.activeIndex },
-    tab: function () { return this.findTab(this.index) },
-  },
   watch: {
+    mode: function (mode) {
+      if (mode === 'normal') {
+        this.$refs.webview.blur()
+      }
+    },
     'tab.reload': function (reload) {
       if (reload && this.tab.url) {
         this.$refs.webview.loadURL(this.tab.url)

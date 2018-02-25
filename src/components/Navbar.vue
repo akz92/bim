@@ -34,6 +34,7 @@ v<template>
       :v-bind:class="{ disabled: !activeIndex }"
       @keyup.enter.exact="submit"
       @keyup.enter="$event.target.blur()"
+      @keyup.escape="$event.target.blur()"
     />
   </div>
 </template>

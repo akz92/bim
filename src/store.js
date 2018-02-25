@@ -8,7 +8,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     tabs: [],
-    activeIndex: null
+    mode: 'normal',
+    activeIndex: null,
+    commandbarActive: false
   },
   getters: {
     tab: (state) => (index) => state.tabs[index],
@@ -19,6 +21,15 @@ export default new Vuex.Store({
     canGoForward: (state) => state.tabs[state.activeIndex] && state.tabs[state.activeIndex].canGoForward,
   },
   actions: {
+    setCommandbarActive ({ commit }, commandbarActive) {
+      commit('SET_COMMANDBAR_ACTIVE', commandbarActive)
+    },
+    setNormalMode ({ commit }) {
+      commit('SET_MODE', 'normal')
+    },
+    setInsertMode ({ commit }) {
+      commit('SET_MODE', 'insert')
+    },
     addTab ({ commit, dispatch, state }, options = {}) {
       const tab = {
         url: null,
@@ -42,17 +53,19 @@ export default new Vuex.Store({
     closeTab ({ commit, dispatch, state }, index) {
       commit('CLOSE_TAB', index)
 
-      if (state.tabs.length < 1) {
+      if (!state.tabs.length) {
         dispatch('setActiveIndex', null)
       } else if (index <= state.activeIndex) {
         dispatch('setActiveIndex', state.activeIndex - 1)
       }
     },
     setActiveIndex ({ commit, state }, index) {
-      index = parseInt(index)
+      if (typeof index === 'string') {
+        index = parseInt(index)
+      }
 
-      if ((index >= 0) && (index < state.tabs.length)) {
-        commit('SET_ACTIVE_INDEX', parseInt(index))
+      if (index === null || ((index >= 0) && (index < state.tabs.length))) {
+        commit('SET_ACTIVE_INDEX', index)
       }
     },
     setUrl ({ commit, state }, { url, index }) {
@@ -87,6 +100,12 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    SET_COMMANDBAR_ACTIVE (state, commandbarActive) {
+      state.commandbarActive = commandbarActive
+    },
+    SET_MODE (state, mode) {
+      state.mode = mode
+    },
     ADD_TAB (state, tab) {
       state.tabs.push(tab)
     },

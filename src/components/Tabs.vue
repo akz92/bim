@@ -24,6 +24,8 @@
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
         </svg>
       </i>
+
+      <div class="mode" v-bind:class="{ normal: mode === 'normal', insert: mode === 'insert' }">{{mode}}</div>
     </div>
 </template>
 
@@ -33,10 +35,7 @@ import { mapState, mapActions } from 'vuex';
 export default {
   name: 'Tabs',
   computed: {
-    ...mapState([
-      'tabs',
-      'activeIndex'
-    ])
+    ...mapState(['mode', 'tabs', 'activeIndex'])
   },
   methods: {
     ...mapActions([
@@ -58,7 +57,7 @@ export default {
   min-height: 32px;
   overflow-y: hidden !important;
   overflow: auto;
-  padding: 0 10px 0 80px;
+  padding: 0 100px 0 80px;
 }
 
 #add {
@@ -135,6 +134,24 @@ export default {
 
 .tab-close:hover {
   fill: #dc143c;
+}
+
+.mode {
+  border-radius: 3px;
+  color: #efefef;
+  font-size: 12px;
+  padding: 3px 8px;
+  position: absolute;
+  right: 20px;
+  text-transform: uppercase;
+}
+
+.mode.normal {
+  background: #34b4ff;
+}
+
+.mode.insert {
+  background: #53c555;
 }
 
 @keyframes nav-spin {
