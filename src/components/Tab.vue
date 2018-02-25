@@ -1,5 +1,6 @@
 <template>
   <webview
+    plugins
     allowpopus
     nodeintegration
     preload="file:///Users/akz/dev/bim/src/components/webviewScript.js"

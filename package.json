@@ -11,6 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "mousetrap": "^1.6.1",
     "url-regex": "^4.1.1",
     "vue": "^2.5.2",
     "vuex": "^3.0.1",
