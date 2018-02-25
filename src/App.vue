@@ -27,12 +27,14 @@ export default {
     this.updateSize()
     this.handleShortcuts()
     this.$mousetrap.bind('esc', this.setNormalMode)
+    this.$electron.ipcRenderer.on('open-url', this.openUrl)
   },
   computed: {
     ...mapState(['mode', 'tabs'])
   },
   methods: {
     ...mapActions([
+      'addTab',
       'setNormalMode',
       'setInsertMode',
       'setCommandbarActive'
@@ -52,6 +54,9 @@ export default {
         this.$mousetrap.unbind(':')
         this.$mousetrap.unbind('i')
       }
+    },
+    openUrl: function (ev, url) {
+      this.addTab({ url })
     }
   },
   watch: {

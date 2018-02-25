@@ -1,4 +1,4 @@
-const {app, BrowserWindow, Menu} = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -46,6 +46,11 @@ app.on('window-all-closed', function() {
   app.quit()
 })
 
+app.on('open-url', function (_, url) {
+  mainWindow.webContents.send('open-url', url)
+})
+
+app.disableHardwareAcceleration();
+
 app.on('ready', createWindow)
 app.on('ready', buildMenu)
-app.disableHardwareAcceleration();

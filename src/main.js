@@ -4,9 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import store from './store'
 import Mousetrap from 'mousetrap'
+const electron = window.require('electron')
 
 Vue.config.productionTip = false
 Vue.prototype.$mousetrap = Mousetrap
+Vue.prototype.$electron = electron
 
 /* eslint-disable no-new */
 new Vue({
