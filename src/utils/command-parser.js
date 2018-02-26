@@ -17,7 +17,8 @@ const commands = [
       { name: 'reload' },
       { name: 'stop' },
       { name: 'inspect' },
-      { name: 'undo' }
+      { name: 'undo' },
+      { name: 'yank' }
     ]
   },
   { prefix: '/' }

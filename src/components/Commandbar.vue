@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import commandParser from '../utils/command-parser'
 
 export default {
@@ -27,7 +27,8 @@ export default {
     ...mapState({
       activeIndex: 'activeIndex',
       active: 'commandbarActive'
-    })
+    }),
+    ...mapGetters(['url'])
   },
   methods: {
     commandParser,
@@ -90,6 +91,10 @@ export default {
           case 'inspect':
             this.setInspect(true)
             break;
+          case 'yank':
+            // TODO: Display success message
+            this.$electron.clipboard.writeText(this.url)
+            break;
         }
       }
 
@@ -118,9 +123,9 @@ export default {
   bottom: 0;
   box-shadow: none;
   color: #5a5a5a;
-  font-size: 16px;
+  font-size: 15px;
   height: 30px;
-  padding: 0 0 0 5px;
+  padding: 0 0 0 10px;
   position: fixed;
   width: 100%;
 }

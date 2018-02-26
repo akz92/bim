@@ -25,7 +25,9 @@
         </svg>
       </i>
 
-      <div class="mode" v-bind:class="{ normal: mode === 'normal', insert: mode === 'insert' }">{{mode}}</div>
+      <div class="mode" v-bind:class="{ normal: mode === 'normal', insert: mode === 'insert' }">
+        <p>{{mode}}</p>
+      </div>
     </div>
 </template>
 
@@ -58,6 +60,7 @@ export default {
   overflow-y: hidden !important;
   overflow: auto;
   padding: 0 100px 0 80px;
+  position: relative;
 }
 
 #add {
@@ -137,13 +140,22 @@ export default {
 }
 
 .mode {
-  border-radius: 3px;
+  align-items: center;
   color: #efefef;
+  display: flex;
   font-size: 12px;
-  padding: 3px 8px;
+  height: 100%;
+  line-height: 100%;
   position: absolute;
-  right: 20px;
+  right: 0;
+  text-align: center;
   text-transform: uppercase;
+  width: 70px;
+}
+
+.mode p {
+  text-align: center;
+  width: 100%;
 }
 
 .mode.normal {

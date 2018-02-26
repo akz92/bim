@@ -34,7 +34,7 @@ export default new Vuex.Store({
       const tab = {
         url: null,
         loading: false,
-        title: '...',
+        title: 'New Tab',
         canGoBack: false,
         canGoForward: false,
         reload: false,

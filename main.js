@@ -6,16 +6,18 @@ let mainWindow
 let deeplinkingUrl
 
 function createWindow () {
-  mainWindow = new BrowserWindow({width: 1024, height: 768, titleBarStyle: 'hiddenInset' })
+  mainWindow = new BrowserWindow({width: 1024, height: 768, titleBarStyle: 'hiddenInset', show: false })
 
-  // mainWindow.loadURL('http://localhost:8080')
-  mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'dist/index.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
+  mainWindow.loadURL('http://localhost:8080')
+  // mainWindow.loadURL(url.format({
+  //   pathname: path.join(__dirname, 'dist/index.html'),
+  //   protocol: 'file:',
+  //   slashes: true
+  // }))
 
-  // mainWindow.openDevTools()
+  mainWindow.openDevTools()
+
+  mainWindow.once('ready-to-show', () => mainWindow.show())
 
   if (deeplinkingUrl) {
     mainWindow.webContents.on('did-finish-load', () => {
