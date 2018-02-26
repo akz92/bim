@@ -1,6 +1,7 @@
 const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path')
 const url = require('url')
+const isDev = require('electron-is-dev');
 
 let mainWindow
 let deeplinkingUrl
@@ -8,14 +9,16 @@ let deeplinkingUrl
 function createWindow () {
   mainWindow = new BrowserWindow({width: 1024, height: 768, titleBarStyle: 'hiddenInset', show: false })
 
-  mainWindow.loadURL('http://localhost:8080')
-  // mainWindow.loadURL(url.format({
-  //   pathname: path.join(__dirname, 'dist/index.html'),
-  //   protocol: 'file:',
-  //   slashes: true
-  // }))
-
-  mainWindow.openDevTools()
+  if (isDev) {
+    mainWindow.loadURL('http://localhost:8080')
+    mainWindow.openDevTools()
+  } else {
+    mainWindow.loadURL(url.format({
+      pathname: path.join(__dirname, 'dist/index.html'),
+      protocol: 'file:',
+      slashes: true
+    }))
+  }
 
   mainWindow.once('ready-to-show', () => mainWindow.show())
 

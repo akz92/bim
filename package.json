@@ -9,9 +9,10 @@
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "build": "node build/build.js",
-    "release": "electron-builder -m"
+    "release:mac": "electron-builder -m"
   },
   "dependencies": {
+    "electron-is-dev": "^0.3.0",
     "mousetrap": "^1.6.1",
     "url-regex": "^4.1.1",
     "vue": "^2.5.2",
