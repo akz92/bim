@@ -1,17 +1,19 @@
 <template>
   <webview
     plugins
-    allowpopus
     preload="file:///Users/akz/dev/bim/src/components/webviewScript.js"
     ref="webview"
-    :src="tab.url"
+    :src="tab.webviewUrl"
     v-show="active"
     @page-title-set="setTitle({ index, title: $event.title })"
     @did-start-loading="setLoading({ index, loading: true })"
     @did-stop-loading="setLoading({ index, loading: false })"
-    @load-commit="evaluateNavigation"
-    @did-frame-finish-load="updateUrl"
+    @did-navigate-in-page="updateUrl"
     @ipc-message="ipcHandler"
+    @dom-ready="evaluateNavigation"
+    @new-window="addTab({ url: $event.url })"
+    @load-commit="updateUrl"
+    @did-fail-load=""
   ></webview>
 </template>
 
@@ -28,16 +30,6 @@ export default {
     tab: function () { return this.findTab(this.index) },
   },
   methods: {
-    ipcHandler: function (ev) {
-      if (ev.channel === 'focus') {
-        this.setInsertMode()
-      } else if (ev.channel === 'blur') {
-        this.setNormalMode()
-      }
-    },
-    updateUrl: function (ev) {
-      this.setUrl({ index: this.index, url: this.$refs.webview.getURL() })
-    },
     ...mapActions([
       'setTitle',
       'setUrl',
@@ -50,14 +42,25 @@ export default {
       'setGoForward',
       'setInspect',
       'setInsertMode',
-      'setNormalMode'
+      'setNormalMode',
+      'addTab'
     ]),
+    ipcHandler: function (ev) {
+      if (ev.channel === 'focus') {
+        this.setInsertMode()
+      } else if (ev.channel === 'blur') {
+        this.setNormalMode()
+      }
+    },
     evaluateNavigation: function () {
       var canGoBack = this.$refs.webview.canGoBack(),
           canGoForward = this.$refs.webview.canGoForward()
 
       this.setCanGoBack({ index: this.index, canGoBack })
       this.setCanGoForward({ index: this.index, canGoForward })
+    },
+    updateUrl: function () {
+      this.setUrl({ index: this.index, url: this.$refs.webview.getURL() })
     }
   },
   watch: {

@@ -35,7 +35,7 @@ export default {
     ...mapActions([
       'setCommandbarActive',
       'addTab',
-      'setUrl',
+      'setWebviewUrl',
       'closeTab',
       'setActiveIndex',
       'setGoBack',
@@ -59,7 +59,7 @@ export default {
             if ((command.flag === 't') || (typeof this.activeIndex !== 'number')) {
               this.addTab({ url: command.argument })
             } else {
-              this.setUrl({ url: command.argument, index: this.activeIndex })
+              this.setWebviewUrl({ url: command.argument, index: this.activeIndex })
             }
             break;
           case 'tab-close':

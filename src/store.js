@@ -33,6 +33,7 @@ export default new Vuex.Store({
     addTab ({ commit, dispatch, state }, options = {}) {
       const tab = {
         url: null,
+        webviewUrl: null,
         loading: false,
         title: 'New Tab',
         canGoBack: false,
@@ -45,7 +46,10 @@ export default new Vuex.Store({
         ...options
       }
 
-      if (tab.url) { tab.url = formatUrl(tab.url) }
+      if (tab.url) {
+        tab.url = formatUrl(tab.url)
+        tab.webviewUrl = tab.url
+      }
 
       commit('ADD_TAB', tab)
       dispatch('setActiveIndex', state.tabs.indexOf(tab))
@@ -70,6 +74,9 @@ export default new Vuex.Store({
     },
     setUrl ({ commit, state }, { url, index }) {
       commit('SET_URL', { url: formatUrl(url), index })
+    },
+    setWebviewUrl ({ commit, state }, { url, index }) {
+      commit('SET_WEBVIEW_URL', { url: formatUrl(url), index })
     },
     setTitle ({ commit, state }, { title, index }) {
       commit('SET_TITLE', { title, index })
@@ -117,6 +124,9 @@ export default new Vuex.Store({
     },
     SET_URL (state, { url, index }) {
       state.tabs[index].url = url
+    },
+    SET_WEBVIEW_URL (state, { url, index }) {
+      state.tabs[index].webviewUrl = url
     },
     SET_TITLE (state, { title, index }) {
       state.tabs[index].title = title

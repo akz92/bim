@@ -69,7 +69,7 @@ export default {
       'setStop',
       'setGoBack',
       'setGoForward',
-      'setUrl'
+      'setWebviewUrl'
     ]),
     toggleReload: function () {
       if (this.loading) {
@@ -82,7 +82,7 @@ export default {
       var url = this.$refs.address.value;
 
       if (this.hasActiveIndex) {
-        this.setUrl({ index: this.activeIndex, url })
+        this.setWebviewUrl({ index: this.activeIndex, url })
       } else {
         this.addTab({ url })
       }
