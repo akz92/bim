@@ -23,6 +23,18 @@ export default {
       text: null
     }
   },
+  mounted: function () {
+    this.$bus.$on('commandbar:open', this.setOpen)
+    this.$bus.$on('commandbar:open-tab', this.setOpenTab)
+    this.$bus.$on('commandbar:close', this.setClose)
+    this.$bus.$on('commandbar:reload', this.setReload)
+    this.$bus.$on('commandbar:back', this.setBack)
+    this.$bus.$on('commandbar:forward', this.setForward)
+    this.$bus.$on('commandbar:tab-next', this.setTabNext)
+    this.$bus.$on('commandbar:tab-prev', this.setTabPrev)
+    this.$bus.$on('commandbar:yank', this.setYank)
+    this.$bus.$on('commandbar:inspect', this.setInspect)
+  },
   computed: {
     ...mapState({
       activeIndex: 'activeIndex',
@@ -31,6 +43,66 @@ export default {
     ...mapGetters(['url'])
   },
   methods: {
+    setOpen: function (ev) {
+      ev.preventDefault()
+
+      this.text = ':open '
+      this.setCommandbarActive(true)
+    },
+    setOpenTab: function (ev) {
+      ev.preventDefault()
+
+      this.text = ':open -t '
+      this.setCommandbarActive(true)
+    },
+    setClose: function (ev) {
+      ev.preventDefault()
+
+      this.text = ':tab-close'
+      this.submit()
+    },
+    setReload: function (ev) {
+      ev.preventDefault()
+
+      this.text = ':reload'
+      this.submit()
+    },
+    setBack: function (ev) {
+      ev.preventDefault()
+
+      this.text = ':back'
+      this.submit()
+    },
+    setForward: function (ev) {
+      ev.preventDefault()
+
+      this.text = ':forward'
+      this.submit()
+    },
+    setTabNext: function (ev) {
+      ev.preventDefault()
+
+      this.text = ':tab-next'
+      this.submit()
+    },
+    setTabPrev: function (ev) {
+      ev.preventDefault()
+
+      this.text = ':tab-prev'
+      this.submit()
+    },
+    setYank: function (ev) {
+      ev.preventDefault()
+
+      this.text = ':yank'
+      this.submit()
+    },
+    setInspect: function (ev) {
+      ev.preventDefault()
+
+      this.text = ':inspect'
+      this.submit()
+    },
     commandParser,
     ...mapActions([
       'setCommandbarActive',
@@ -64,11 +136,11 @@ export default {
             }
             break;
           case 'tab-close':
-            this.closeTab(parseInt(this.index) || this.activeIndex)
+            this.closeTab(parseInt(command.argument + 1) || this.activeIndex)
             break;
           case 'tab-focus':
             if (typeof command.argument === 'string') {
-              this.setActiveIndex(command.argument)
+              this.setActiveIndex(command.argument + 1)
             }
             break;
           case 'tab-next':
@@ -104,12 +176,15 @@ export default {
         }
       }
 
-      blur()
+      this.blur()
     },
     blur: function () {
       this.text = null
-      this.$refs.commandbar.blur()
-      this.setCommandbarActive(false)
+
+      if (this.$refs.commandbar) {
+        this.$refs.commandbar.blur()
+        this.setCommandbarActive(false)
+      }
     }
   },
   directives: {

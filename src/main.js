@@ -9,6 +9,7 @@ const electron = window.require('electron')
 Vue.config.productionTip = false
 Vue.prototype.$mousetrap = Mousetrap
 Vue.prototype.$electron = electron
+Vue.prototype.$bus = new Vue()
 
 /* eslint-disable no-new */
 new Vue({
