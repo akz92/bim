@@ -5,7 +5,7 @@
     v-model="text"
     v-if="active"
     v-focus
-    @blur="setCommandbarActive(false)"
+    @blur="blur"
     @keyup.enter.exact="submit"
     @keyup.enter="blur"
     @keyup.escape="blur"
@@ -103,6 +103,7 @@ export default {
     blur: function () {
       this.text = null
       this.$refs.commandbar.blur()
+      this.setCommandbarActive(false)
     }
   },
   directives: {
