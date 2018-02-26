@@ -8,8 +8,7 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
-    "build": "node build/build.js",
-    "pack": "electron-builder -m"
+    "build": "node build/build.js"
   },
   "dependencies": {
     "mousetrap": "^1.6.1",
@@ -65,7 +64,7 @@
     "not ie <= 8"
   ],
   "build": {
-    "appId": "com.bim",
+    "appId": "org.bimbrowser",
     "productName": "Bim",
     "files": [
       "main.js",
@@ -74,22 +73,26 @@
       "package.json"
     ],
     "directories": {
-      "buildResources": "dist",
-      "output": "packages"
+      "output": "releases"
     },
     "protocols": [
+      {
+        "name": "electron-deep-linking",
+        "schemes": [
+          "myapp"
+        ]
+      },
       {
         "name": "URL",
         "schemes": [
           "http",
           "https"
-        ],
-        "role": "Viewer"
+        ]
       }
     ],
     "mac": {
       "target": "dir",
-      "category": "public.app-category.productivity"
+      "category": "public.app-category.Productivity"
     }
   }
 }

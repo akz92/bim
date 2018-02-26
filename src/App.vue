@@ -27,7 +27,7 @@ export default {
     this.updateSize()
     this.handleShortcuts()
     this.$mousetrap.bind('esc', this.setNormalMode)
-    this.$electron.ipcRenderer.on('open-url', this.openUrl)
+    this.$electron.ipcRenderer.on('add-tab', this.openUrl)
   },
   computed: {
     ...mapState(['mode', 'tabs'])
