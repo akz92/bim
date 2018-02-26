@@ -34,6 +34,7 @@ export default {
     commandParser,
     ...mapActions([
       'setCommandbarActive',
+      'setNavbarActive',
       'addTab',
       'setWebviewUrl',
       'closeTab',
@@ -94,6 +95,11 @@ export default {
           case 'yank':
             // TODO: Display success message
             this.$electron.clipboard.writeText(this.url)
+            break;
+          case 'set':
+            if (command.property === 'navbar') {
+              this.setNavbarActive(command.value === 'show')
+            }
             break;
         }
       }

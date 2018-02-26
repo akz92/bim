@@ -10,6 +10,7 @@ export default new Vuex.Store({
     tabs: [],
     mode: 'normal',
     activeIndex: null,
+    navbarActive: true,
     commandbarActive: false
   },
   getters: {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
   actions: {
     setCommandbarActive ({ commit }, commandbarActive) {
       commit('SET_COMMANDBAR_ACTIVE', commandbarActive)
+    },
+    setNavbarActive ({ commit }, navbarActive) {
+      commit('SET_NAVBAR_ACTIVE', navbarActive)
     },
     setNormalMode ({ commit }) {
       commit('SET_MODE', 'normal')
@@ -110,6 +114,9 @@ export default new Vuex.Store({
   mutations: {
     SET_COMMANDBAR_ACTIVE (state, commandbarActive) {
       state.commandbarActive = commandbarActive
+    },
+    SET_NAVBAR_ACTIVE (state, navbarActive) {
+      state.navbarActive = navbarActive
     },
     SET_MODE (state, mode) {
       state.mode = mode

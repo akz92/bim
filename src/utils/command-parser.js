@@ -6,6 +6,15 @@ const commands = [
         name: 'open',
         flags: ['t']
       },
+      {
+        name: 'set',
+        properties: [
+          {
+            name: 'navbar',
+            values: ['show', 'hide']
+          }
+        ]
+      },
       { name: 'tab-close' },
       { name: 'tab-focus' },
       { name: 'tab-clone' },
@@ -26,8 +35,17 @@ const commands = [
 const prefixes = commands.map((command) => command.prefix)
 const command = (prefix) => commands.find((command) => command.prefix === prefix)
 const actionsFor = (prefix) => command(prefix).actions.map((action) => action.name)
-const flagsFor = (prefix, action) => command(prefix).actions.find((act) => act.name === action).flags
-const action = (command, name) => command.actions.find((action) => action.name === name)
+const findAction = (prefix, action) => command(prefix).actions.find((act) => act.name === action )
+const findProperty = (prefix, action, property) => findAction(prefix, action).properties.find((prop) => prop.name === property)
+const flagsFor = (prefix, action) => findAction(prefix, action).flags
+const propertiesFor = (prefix, action) => {
+  let properties = findAction(prefix, action).properties
+
+  if (properties) {
+    return properties.map((property) => property.name)
+  }
+}
+const valuesFor = (prefix, action, property) => findProperty(prefix, action, property).values
 
 // TODO: Accept multiple flags
 export default input => {
@@ -52,6 +70,24 @@ export default input => {
 
     if (flags.indexOf(flag) < 0) {
       response.error = `Invalid flag "${flag}"`
+      return response
+    }
+  }
+
+  var properties = propertiesFor(prefix, action)
+  if (properties) {
+    var [property, value] = argument.split(' ')
+    response.property = property
+    response.value = value
+
+    var values = valuesFor(prefix, action, property)
+    if (properties.indexOf(property) < 0) {
+      response.error = `Invalid property "${property}"`
+      return response
+    }
+
+    if (values.indexOf(value) < 0) {
+      response.error = `Invalid value "${value}"`
       return response
     }
   }

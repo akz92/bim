@@ -1,7 +1,7 @@
 <template>
   <div id="app" v-bind:style="{ width: width, height: height }">
     <Tabs/>
-    <Navbar/>
+    <Navbar v-if="navbarActive"/>
     <Tab v-for="(tab, index) in tabs" :key="index" :index="index"/>
     <Commandbar/>
   </div>
@@ -30,7 +30,7 @@ export default {
     this.$electron.ipcRenderer.on('add-tab', this.openUrl)
   },
   computed: {
-    ...mapState(['mode', 'tabs'])
+    ...mapState(['mode', 'tabs', 'navbarActive'])
   },
   methods: {
     ...mapActions([

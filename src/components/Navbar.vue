@@ -1,4 +1,4 @@
-v<template>
+<template>
   <div id="navbar">
     <i id="navbar-back" class="nav-icons" title="Go back" v-bind:class="{ disabled: !canGoBack }" @click="setGoBack({ index: activeIndex, goBack: true })">
       <svg height="100%" viewBox="0 0 24 24">
