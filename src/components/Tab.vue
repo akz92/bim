@@ -10,7 +10,7 @@
     @did-start-loading="setLoading({ index, loading: true })"
     @did-stop-loading="setLoading({ index, loading: false })"
     @load-commit="evaluateNavigation"
-    @did-navigate-in-page="setUrl({ index, url: $event.url })"
+    @did-frame-finish-load="updateUrl"
     @ipc-message="ipcHandler"
   ></webview>
 </template>
@@ -34,6 +34,9 @@ export default {
       } else if (ev.channel === 'blur') {
         this.setNormalMode()
       }
+    },
+    updateUrl: function (ev) {
+      this.setUrl({ index: this.index, url: this.$refs.webview.getURL() })
     },
     ...mapActions([
       'setTitle',
