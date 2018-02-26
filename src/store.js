@@ -75,8 +75,9 @@ export default new Vuex.Store({
     setUrl ({ commit, state }, { url, index }) {
       commit('SET_URL', { url: formatUrl(url), index })
     },
-    setWebviewUrl ({ commit, state }, { url, index }) {
+    setWebviewUrl ({ commit, state, dispatch }, { url, index }) {
       commit('SET_WEBVIEW_URL', { url: formatUrl(url), index })
+      dispatch('setUrl', { url, index })
     },
     setTitle ({ commit, state }, { title, index }) {
       commit('SET_TITLE', { title, index })
