@@ -1,13 +1,28 @@
-const { app, BrowserWindow, Menu, session } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path')
 const url = require('url')
 const isDev = require('electron-is-dev');
+const windowStateKeeper = require('electron-window-state');
 
 let mainWindow
 let deeplinkingUrl
 
 function createWindow () {
-  mainWindow = new BrowserWindow({width: 1024, height: 768, titleBarStyle: 'hiddenInset', show: false })
+  let mainWindowState = windowStateKeeper({
+    defaultWidth: 1024,
+    defaultHeight: 768
+  });
+
+  mainWindow = new BrowserWindow({
+    width: mainWindowState.width,
+    height: mainWindowState.height,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    titleBarStyle: 'hiddenInset',
+    show: false
+  })
+
+  mainWindowState.manage(mainWindow);
 
   if (isDev) {
     mainWindow.loadURL('http://localhost:8080')
