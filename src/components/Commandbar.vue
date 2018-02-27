@@ -136,11 +136,12 @@ export default {
             }
             break;
           case 'tab-close':
-            this.closeTab(parseInt(command.argument + 1) || this.activeIndex)
+            let index = command.argument? parseInt(command.argument - 1) : this.activeIndex
+            this.closeTab(index)
             break;
           case 'tab-focus':
             if (typeof command.argument === 'string') {
-              this.setActiveIndex(command.argument + 1)
+              this.setActiveIndex(parseInt(command.argument - 1))
             }
             break;
           case 'tab-next':
