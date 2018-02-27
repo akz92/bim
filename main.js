@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu } = require('electron')
+const { app, BrowserWindow, Menu, session } = require('electron')
 const path = require('path')
 const url = require('url')
 const isDev = require('electron-is-dev');
@@ -59,8 +59,16 @@ function buildMenu() {
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
+function configUserAgent() {
+  session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
+    details.requestHeaders['User-Agent'] = 'Chrome';
+    callback({ cancel: false, requestHeaders: details.requestHeaders });
+  });
+}
+
 app.on('ready', createWindow)
 app.on('ready', buildMenu)
+app.on('ready', configUserAgent)
 
 app.on('window-all-closed', function() {
   app.quit()
