@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import urlRegex from 'url-regex'
+import uuid from 'uuid/v4'
 
 Vue.use(Vuex)
 
@@ -36,6 +37,7 @@ export default new Vuex.Store({
     },
     addTab ({ commit, dispatch, state }, options = {}) {
       const tab = {
+        id: uuid(),
         url: null,
         webviewUrl: null,
         loading: false,
@@ -63,7 +65,7 @@ export default new Vuex.Store({
 
       if (!state.tabs.length) {
         dispatch('setActiveIndex', null)
-      } else if (index <= state.activeIndex) {
+      } else if ((index < state.activeIndex) || (state.activeIndex > state.tabs.length - 1)) {
         dispatch('setActiveIndex', state.activeIndex - 1)
       }
     },
@@ -72,9 +74,13 @@ export default new Vuex.Store({
         index = parseInt(index)
       }
 
-      if (index === null || ((index >= 0) && (index < state.tabs.length))) {
-        commit('SET_ACTIVE_INDEX', index)
+      if (index < 0) {
+        index = state.tabs.length - 1
+      } else if (index > state.tabs.length - 1) {
+        index = 0
       }
+
+      commit('SET_ACTIVE_INDEX', index)
     },
     setUrl ({ commit, state }, { url, index }) {
       commit('SET_URL', { url: formatUrl(url), index })

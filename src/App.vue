@@ -2,7 +2,7 @@
   <div id="app" v-bind:style="{ width: width, height: height }">
     <Tabs/>
     <Navbar v-if="navbarActive"/>
-    <Tab v-for="(tab, index) in tabs" :key="index" :index="index"/>
+    <Tab v-for="(tab, index) in tabs" :key="tab.id" :index="index"/>
     <Commandbar/>
   </div>
 </template>
