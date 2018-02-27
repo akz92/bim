@@ -1,5 +1,5 @@
 <template>
-    <div id="tabs">
+  <div id="tabs" v-bind:class="{ 'with-navbar': navbarActive }">
       <span v-for="(tab, index) in tabs" class="tab" v-bind:class="{ active: index === activeIndex }" @click="setActiveIndex(index)">
         <i class="tab-favicon nav-icons" v-bind:class="{ loading: tab.loading }">
           <svg height="100%" viewBox="0 0 24 24">
@@ -37,7 +37,7 @@ import { mapState, mapActions } from 'vuex';
 export default {
   name: 'Tabs',
   computed: {
-    ...mapState(['mode', 'tabs', 'activeIndex'])
+    ...mapState(['mode', 'tabs', 'activeIndex', 'navbarActive'])
   },
   methods: {
     ...mapActions([
@@ -53,6 +53,8 @@ export default {
 #tabs {
   align-items: center;
   background: rgba(211, 211, 211, 0.5);
+  border-bottom: 1px solid #e2e2e2;
+  box-sizing: border-box;
   display: flex;
   font-family: arial;
   height: 38px;
@@ -61,6 +63,10 @@ export default {
   overflow: auto;
   padding: 0 100px 0 80px;
   position: relative;
+}
+
+#tabs.with-navbar {
+  border: 0;
 }
 
 #add {

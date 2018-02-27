@@ -5,6 +5,7 @@
     ref="webview"
     :src="tab.webviewUrl"
     v-show="active"
+    v-bind:class="{ 'with-navbar': navbarActive }"
     @page-title-set="setTitle({ index, title: $event.title })"
     @did-start-loading="setLoading({ index, loading: true })"
     @did-stop-loading="setLoading({ index, loading: false })"
@@ -25,7 +26,7 @@ export default {
   props: ['index'],
   computed: {
     ...mapGetters({ findTab: 'tab' }),
-    ...mapState(['mode', 'activeIndex']),
+    ...mapState(['mode', 'activeIndex', 'navbarActive']),
     active: function () { return this.index == this.activeIndex },
     tab: function () { return this.findTab(this.index) },
   },
@@ -105,7 +106,11 @@ export default {
 
 <style scoped>
 webview {
-  height: calc(100% - 32px - 38px);
+  height: calc(100% - 38px);
   width: 100%;
+}
+
+webview.with-navbar {
+  height: calc(100% - 32px - 38px);
 }
 </style>
