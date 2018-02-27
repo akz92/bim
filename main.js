@@ -74,16 +74,8 @@ function buildMenu() {
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
-function configUserAgent() {
-  session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
-    details.requestHeaders['User-Agent'] = 'Chrome';
-    callback({ cancel: false, requestHeaders: details.requestHeaders });
-  });
-}
-
 app.on('ready', createWindow)
 app.on('ready', buildMenu)
-app.on('ready', configUserAgent)
 
 app.on('window-all-closed', function() {
   app.quit()
