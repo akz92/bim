@@ -96,6 +96,19 @@ app.on('open-url', function (event, url) {
 })
 
 app.disableHardwareAcceleration();
+const isSecondInstance = app.makeSingleInstance((commandLine, workingDirectory) => {
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) {
+      mainWindow.restore()
+    }
+
+    mainWindow.focus()
+  }
+})
+
+if (isSecondInstance) {
+  app.quit()
+}
 
 // function logEverywhere(s) {
 //     console.log(s)
