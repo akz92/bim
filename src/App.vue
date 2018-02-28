@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-bind:style="{ width: width, height: height }">
+  <div id="app" v-bind:style="{ width, height }">
     <Tabs/>
     <Navbar v-if="navbarActive"/>
     <Tab v-for="(tab, index) in tabs" :key="tab.id" :index="index"/>

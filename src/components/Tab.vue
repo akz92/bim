@@ -4,8 +4,7 @@
     preload="file:///Users/akz/dev/bim/src/components/webviewScript.js"
     ref="webview"
     :src="tab.webviewUrl"
-    v-show="active"
-    v-bind:class="{ 'with-navbar': navbarActive }"
+    v-bind:class="{ active, 'with-navbar': navbarActive }"
     @page-title-set="setTitle({ index, title: $event.title })"
     @did-start-loading="setLoading({ index, loading: true })"
     @did-stop-loading="setLoading({ index, loading: false })"
@@ -108,6 +107,13 @@ export default {
 webview {
   height: calc(100% - 38px);
   width: 100%;
+  position: fixed;
+  opacity: 0;
+}
+
+webview.active {
+  z-index: 1;
+  opacity: 1;
 }
 
 webview.with-navbar {
