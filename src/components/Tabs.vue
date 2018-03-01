@@ -8,9 +8,10 @@
         <!--   </svg> -->
         <!-- </i> -->
 
+        <div class="spinner"></div>
+
         <i class="tab-title">{{tab.title}}</i>
 
-        <div class="spinner"></div>
         <i class="tab-close nav-icons" @click.stop="closeTab(index)">
           <svg height="100%" viewBox="0 0 24 24">
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
@@ -140,10 +141,6 @@ export default {
   opacity: 1;
 }
 
-.tab.loading:not(:hover) .tab-close {
-  display: none;
-}
-
 .tab-close:hover {
   fill: #dc143c;
 }
@@ -181,24 +178,19 @@ export default {
 }
 
 .spinner {
-  align-content: flex-end;
+  align-content: flex-start;
   box-sizing: border-box;
   width: 12px;
   height: 12px;
-  margin: 0 10px 0 2px;
   border-radius: 100%;
   border: 2px solid #969590;
   border-top-color: #D2D2C9;
   animation: spin 1s infinite linear;
-  display: none;
+  visibility: hidden;
 }
 
 .tab.loading .spinner {
-  display: flex;
-}
-
-.tab.loading:hover .spinner {
-  display: none;
+  visibility: visible;
 }
 
 @keyframes spin {
