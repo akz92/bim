@@ -89,11 +89,11 @@ export default {
 }
 
 .tab:not(:first-of-type) {
-  border-left: 1px solid #dcdcdc;
+  border-left: 1px solid #c1c1c1;
 }
 
 .tab:last-of-type {
-  border-right: 1px solid #dcdcdc;
+  border-right: 1px solid #c1c1c1;
 }
 
 .tab.active {
