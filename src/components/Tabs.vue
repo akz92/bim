@@ -1,7 +1,7 @@
 <template>
   <div id="tabs" v-bind:class="{ 'with-navbar': navbarActive }">
-      <span v-for="(tab, index) in tabs" class="tab" v-bind:class="{ active: index === activeIndex }" @click="setActiveIndex(index)">
-        <i class="tab-favicon nav-icons" v-bind:class="{ loading: tab.loading }">
+      <span v-for="(tab, index) in tabs" class="tab" v-bind:class="{ active: index === activeIndex, loading: tab.loading }" @click="setActiveIndex(index)" >
+        <i class="tab-favicon nav-icons">
           <svg height="100%" viewBox="0 0 24 24">
             <path d="M0 0h24v24H0z" fill="none"/>
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
@@ -10,6 +10,7 @@
 
         <i class="tab-title">{{tab.title}}</i>
 
+        <div class="spinner"></div>
         <i class="tab-close nav-icons" @click.stop="closeTab(index)">
           <svg height="100%" viewBox="0 0 24 24">
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
@@ -83,6 +84,7 @@ export default {
   min-height: 20px;
   min-width: 60px;
   width: 180px;
+  position: relative;
 }
 
 .tab:not(:first-of-type) {
@@ -103,10 +105,6 @@ export default {
   height: 24px;
   margin: 6px;
   width: 24px;
-}
-
-.tab-favicon.loading {
-  animation: nav-spin 2s linear infinite;
 }
 
 .tab-title {
@@ -139,6 +137,10 @@ export default {
 .tab:hover .tab-close {
   visibility: visible;
   opacity: 1;
+}
+
+.tab.loading:not(:hover) .tab-close {
+  display: none;
 }
 
 .tab-close:hover {
@@ -175,5 +177,32 @@ export default {
 @keyframes nav-spin {
   0% {transform:rotate(0deg);}
   100% {transform:rotate(360deg);}
+}
+
+.spinner {
+  align-content: flex-end;
+  box-sizing: border-box;
+  width: 12px;
+  height: 12px;
+  margin: 0 10px 0 2px;
+  border-radius: 100%;
+  border: 2px solid #969590;
+  border-top-color: #D2D2C9;
+  animation: spin 1s infinite linear;
+  display: none;
+}
+
+.tab.loading .spinner {
+  display: flex;
+}
+
+.tab.loading:hover .spinner {
+  display: none;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
