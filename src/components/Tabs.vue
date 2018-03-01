@@ -1,12 +1,12 @@
 <template>
   <div id="tabs" v-bind:class="{ 'with-navbar': navbarActive }">
       <span v-for="(tab, index) in tabs" class="tab" v-bind:class="{ active: index === activeIndex, loading: tab.loading }" @click="setActiveIndex(index)" >
-        <i class="tab-favicon nav-icons">
-          <svg height="100%" viewBox="0 0 24 24">
-            <path d="M0 0h24v24H0z" fill="none"/>
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-          </svg>
-        </i>
+        <!-- <i class="tab&#45;favicon nav&#45;icons"> -->
+        <!--   <svg height="100%" viewBox="0 0 24 24"> -->
+        <!--     <path d="M0 0h24v24H0z" fill="none"/> -->
+        <!--     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10&#45;4.48 10&#45;10S17.52 2 12 2zm&#45;1 17.93c&#45;3.95&#45;.49&#45;7&#45;3.85&#45;7&#45;7.93 0&#45;.62.08&#45;1.21.21&#45;1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9&#45;2.54c&#45;.26&#45;.81&#45;1&#45;1.39&#45;1.9&#45;1.39h&#45;1v&#45;3c0&#45;.55&#45;.45&#45;1&#45;1&#45;1H8v&#45;2h2c.55 0 1&#45;.45 1&#45;1V7h2c1.1 0 2&#45;.9 2&#45;2v&#45;.41c2.93 1.19 5 4.06 5 7.41 0 2.08&#45;.8 3.97&#45;2.1 5.39z"/> -->
+        <!--   </svg> -->
+        <!-- </i> -->
 
         <i class="tab-title">{{tab.title}}</i>
 
@@ -83,6 +83,7 @@ export default {
   height: 38px;
   min-height: 20px;
   min-width: 60px;
+  padding-left: 10px;
   width: 180px;
   position: relative;
 }
