@@ -65,6 +65,7 @@ export default {
   overflow: auto;
   padding: 0 100px 0 80px;
   position: relative;
+  z-index: 10;
 }
 
 #tabs.with-navbar {
@@ -84,7 +85,6 @@ export default {
   height: 38px;
   min-height: 20px;
   min-width: 60px;
-  padding-left: 10px;
   width: 180px;
   position: relative;
 }
@@ -119,10 +119,6 @@ export default {
   padding-left: 5px;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.tab-title:hover {
-  color: #000;
 }
 
 .tab-close {
@@ -187,6 +183,7 @@ export default {
   border-top-color: #D2D2C9;
   animation: spin 1s infinite linear;
   visibility: hidden;
+  margin-left: 6px;
 }
 
 .tab.loading .spinner {

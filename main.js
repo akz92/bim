@@ -98,18 +98,20 @@ app.on('open-url', function (event, url) {
 // Force integrated graphics card
 app.disableHardwareAcceleration();
 
-const isSecondInstance = app.makeSingleInstance((commandLine, workingDirectory) => {
-  if (mainWindow) {
-    if (mainWindow.isMinimized()) {
-      mainWindow.restore()
+if (!isDev) {
+  const isSecondInstance = app.makeSingleInstance((commandLine, workingDirectory) => {
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore()
+      }
+
+      mainWindow.focus()
     }
+  })
 
-    mainWindow.focus()
+  if (isSecondInstance) {
+    app.quit()
   }
-})
-
-if (isSecondInstance) {
-  app.quit()
 }
 
 // function logEverywhere(s) {

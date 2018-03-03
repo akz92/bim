@@ -60,6 +60,7 @@ export default {
         this.$mousetrap.bind('K', this.tabNext)
         this.$mousetrap.bind('y y', this.yank)
         this.$mousetrap.bind('w i', this.inspect)
+        this.$mousetrap.bind('f', this.find)
       } else {
         this.$mousetrap.unbind(':')
         this.$mousetrap.unbind('i')
@@ -73,6 +74,7 @@ export default {
         this.$mousetrap.unbind('K')
         this.$mousetrap.unbind('y y')
         this.$mousetrap.unbind('w i')
+        this.$mousetrap.unbind('f')
       }
     },
     openUrl: function (ev, url) {
@@ -107,6 +109,9 @@ export default {
     },
     inspect: function (ev) {
       this.$bus.$emit('commandbar:inspect', ev)
+    },
+    find: function (ev) {
+      this.$bus.$emit('activetab:find', ev)
     }
   },
   watch: {
