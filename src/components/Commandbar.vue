@@ -108,7 +108,7 @@ export default {
       'setCommandbarActive',
       'setNavbarActive',
       'addTab',
-      'setWebviewUrl',
+      'setUrl',
       'closeTab',
       'setActiveIndex',
       'setGoBack',
@@ -132,7 +132,11 @@ export default {
             if ((command.flag === 't') || (typeof this.activeIndex !== 'number')) {
               this.addTab({ url: command.argument })
             } else {
-              this.setWebviewUrl({ url: command.argument, index: this.activeIndex })
+              this.setUrl({
+                url: command.argument,
+                index: this.activeIndex,
+                updateWebview: true
+              })
             }
             break;
           case 'tab-close':

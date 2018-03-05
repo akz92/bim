@@ -3,7 +3,7 @@
     plugins
     preload="file:///Users/akz/dev/bim/src/utils/webview-preloader.js"
     ref="webview"
-    :src="tab.webviewUrl"
+    :src="url"
     v-bind:class="{ active, 'with-navbar': navbarActive }"
     @page-title-set="setTitle({ index, title: $event.title })"
     @did-start-loading="setLoading({ index, loading: true })"
@@ -23,6 +23,14 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 export default {
   name: 'Tab',
   props: ['index'],
+  data: function () {
+    return {
+      url: null
+    }
+  },
+  mounted: function () {
+    this.url = this.tab.url
+  },
   computed: {
     ...mapGetters({ findTab: 'tab' }),
     ...mapState(['mode', 'activeIndex', 'navbarActive']),
@@ -44,7 +52,8 @@ export default {
       'setInsertMode',
       'setNormalMode',
       'addTab',
-      'setFocusWebview'
+      'setFocusWebview',
+      'setUpdateWebviewUrl'
     ]),
     ipcHandler: function (ev) {
       if ((ev.channel === 'window:focus') && (this.mode === 'normal')) {
@@ -120,6 +129,12 @@ export default {
         }
 
         this.setFocusWebview(false)
+      }
+    },
+    'tab.updateWebviewUrl': function (updateWebviewUrl) {
+      if (updateWebviewUrl) {
+        this.url = this.tab.url
+        this.setUpdateWebviewUrl({ index: this.index, update: false })
       }
     }
   }

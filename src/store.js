@@ -42,7 +42,7 @@ export default new Vuex.Store({
       const tab = {
         id: uuid(),
         url: null,
-        webviewUrl: null,
+        updateWebviewUrl: false,
         loading: false,
         title: 'New Tab',
         canGoBack: false,
@@ -58,7 +58,6 @@ export default new Vuex.Store({
 
       if (tab.url) {
         tab.url = formatUrl(tab.url)
-        tab.webviewUrl = tab.url
       }
 
       commit('ADD_TAB', tab)
@@ -86,12 +85,15 @@ export default new Vuex.Store({
 
       commit('SET_ACTIVE_INDEX', index)
     },
-    setUrl ({ commit, state }, { url, index }) {
+    setUrl ({ commit, state, dispatch }, { url, index, updateWebview }) {
       commit('SET_URL', { url: formatUrl(url), index })
+
+      if (updateWebview) {
+        dispatch('setUpdateWebviewUrl', { index, update: true })
+      }
     },
-    setWebviewUrl ({ commit, state, dispatch }, { url, index }) {
-      commit('SET_WEBVIEW_URL', { url: formatUrl(url), index })
-      dispatch('setUrl', { url, index })
+    setUpdateWebviewUrl ({ commit, state, dispatch }, { update, index }) {
+      commit('SET_UPDATE_WEBVIEW_URL', { update, index })
     },
     setTitle ({ commit, state }, { title, index }) {
       commit('SET_TITLE', { title, index })
@@ -146,8 +148,8 @@ export default new Vuex.Store({
     SET_URL (state, { url, index }) {
       state.tabs[index].url = url
     },
-    SET_WEBVIEW_URL (state, { url, index }) {
-      state.tabs[index].webviewUrl = url
+    SET_UPDATE_WEBVIEW_URL (state, { update, index }) {
+      state.tabs[index].updateWebviewUrl = update
     },
     SET_TITLE (state, { title, index }) {
       state.tabs[index].title = title
