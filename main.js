@@ -3,6 +3,7 @@ const path = require('path')
 const url = require('url')
 const isDev = require('electron-is-dev');
 const windowStateKeeper = require('electron-window-state');
+  const { default: installExtension, VUEJS_DEVTOOLS } = require('electron-devtools-installer');
 
 let mainWindow
 let deeplinkingUrl
@@ -46,6 +47,12 @@ function createWindow () {
   mainWindow.on('closed', function () {
     mainWindow = null
   })
+
+  if (isDev) {
+    installExtension(VUEJS_DEVTOOLS).then(() => {
+      mainWindow.addDevToolsExtension(VUEJS_DEVTOOLS)
+    })
+  }
 }
 
 function buildMenu() {
