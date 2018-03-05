@@ -27,7 +27,7 @@
         </svg>
       </i>
 
-      <div class="mode" v-bind:class="{ normal: mode === 'normal', insert: mode === 'insert' }">
+      <div class="mode" v-bind:class="{ normal: mode === 'normal', insert: mode === 'insert', hint: mode === 'hint' }">
         <p>{{mode}}</p>
       </div>
     </div>
@@ -166,6 +166,10 @@ export default {
 
 .mode.insert {
   background: #53c555;
+}
+
+.mode.hint {
+  background: #fad62f;
 }
 
 @keyframes nav-spin {
