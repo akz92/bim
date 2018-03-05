@@ -28,6 +28,7 @@ export default {
     this.handleShortcuts()
     this.$mousetrap.bind('esc', this.setNormalMode)
     this.$electron.ipcRenderer.on('add-tab', this.openUrl)
+    this.$electron.ipcRenderer.on('browser:focus', this.focusActiveWebview)
   },
   computed: {
     ...mapState(['mode', 'tabs', 'navbarActive'])
@@ -35,8 +36,10 @@ export default {
   methods: {
     ...mapActions([
       'addTab',
+      'setFocusWebview',
       'setNormalMode',
       'setInsertMode',
+      'setHintMode',
       'setCommandbarActive'
     ]),
     updateSize: function () {
@@ -45,6 +48,9 @@ export default {
     },
     activateCommandbar: function () {
       this.setCommandbarActive(true)
+    },
+    focusActiveWebview: function () {
+      this.setFocusWebview(true)
     },
     handleShortcuts: function () {
       if (this.mode == 'normal') {
@@ -60,7 +66,7 @@ export default {
         this.$mousetrap.bind('K', this.tabNext)
         this.$mousetrap.bind('y y', this.yank)
         this.$mousetrap.bind('w i', this.inspect)
-        this.$mousetrap.bind('f', this.find)
+        this.$mousetrap.bind('f', this.hints)
       } else {
         this.$mousetrap.unbind(':')
         this.$mousetrap.unbind('i')
@@ -110,8 +116,8 @@ export default {
     inspect: function (ev) {
       this.$bus.$emit('commandbar:inspect', ev)
     },
-    find: function (ev) {
-      this.$bus.$emit('activetab:find', ev)
+    hints: function (ev) {
+      this.setHintMode()
     }
   },
   watch: {

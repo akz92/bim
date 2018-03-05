@@ -51,6 +51,10 @@ function createWindow () {
     mainWindow = null
   })
 
+  mainWindow.on('focus', function () {
+    mainWindow.webContents.send('browser:focus')
+  })
+
   if (isDev) {
     installExtension(VUEJS_DEVTOOLS).then(() => {
       mainWindow.addDevToolsExtension(VUEJS_DEVTOOLS)

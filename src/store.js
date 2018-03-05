@@ -35,6 +35,9 @@ export default new Vuex.Store({
     setInsertMode ({ commit }) {
       commit('SET_MODE', 'insert')
     },
+    setHintMode ({ commit }) {
+      commit('SET_MODE', 'hint')
+    },
     addTab ({ commit, dispatch, state }, options = {}) {
       const tab = {
         id: uuid(),
@@ -49,6 +52,7 @@ export default new Vuex.Store({
         goBack: false,
         goForward: false,
         inspect: false,
+        focusWebview: false,
         ...options
       }
 
@@ -115,6 +119,9 @@ export default new Vuex.Store({
     },
     setInspect ({ commit }, inspect) {
       commit('SET_INSPECT', inspect)
+    },
+    setFocusWebview({ commit }, focus) {
+      commit('SET_FOCUS_WEBVIEW', focus)
     }
   },
   mutations: {
@@ -168,6 +175,9 @@ export default new Vuex.Store({
     },
     SET_INSPECT (state, inspect) {
       state.tabs[state.activeIndex].inspect = inspect
+    },
+    SET_FOCUS_WEBVIEW (state, focus) {
+      state.tabs[state.activeIndex].focusWebview = focus
     }
   },
   plugins: [createPersistedState()]
