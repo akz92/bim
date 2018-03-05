@@ -27,7 +27,6 @@ function createWindow () {
 
   if (isDev) {
     mainWindow.loadURL('http://localhost:8080')
-    mainWindow.openDevTools()
   } else {
     mainWindow.loadURL(url.format({
       pathname: path.join(__dirname, 'dist/index.html'),
@@ -36,7 +35,11 @@ function createWindow () {
     }))
   }
 
-  mainWindow.once('ready-to-show', () => mainWindow.show())
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
+
+    if (isDev) mainWindow.openDevTools()
+  })
 
   if (deeplinkingUrl) {
     mainWindow.webContents.on('did-finish-load', () => {
