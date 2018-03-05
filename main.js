@@ -3,10 +3,29 @@ const path = require('path')
 const url = require('url')
 const isDev = require('electron-is-dev');
 const windowStateKeeper = require('electron-window-state');
-  const { default: installExtension, VUEJS_DEVTOOLS } = require('electron-devtools-installer');
 
 let mainWindow
 let deeplinkingUrl
+
+function devInitialization () {
+  const { default: installExtension, VUEJS_DEVTOOLS } = require('electron-devtools-installer');
+
+  mainWindow.loadURL('http://localhost:8080')
+
+  mainWindow.once('ready-to-show', () => mainWindow.openDevTools())
+
+  installExtension(VUEJS_DEVTOOLS).then(() => {
+    mainWindow.addDevToolsExtension(VUEJS_DEVTOOLS)
+  })
+}
+
+function prodInitialization () {
+  mainWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'dist/index.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
+}
 
 function createWindow () {
   let mainWindowState = windowStateKeeper({
@@ -25,21 +44,9 @@ function createWindow () {
 
   mainWindowState.manage(mainWindow);
 
-  if (isDev) {
-    mainWindow.loadURL('http://localhost:8080')
-  } else {
-    mainWindow.loadURL(url.format({
-      pathname: path.join(__dirname, 'dist/index.html'),
-      protocol: 'file:',
-      slashes: true
-    }))
-  }
+  isDev ? devInitialization() : prodInitialization()
 
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show()
-
-    if (isDev) mainWindow.openDevTools()
-  })
+  mainWindow.once('ready-to-show', () => mainWindow.show())
 
   if (deeplinkingUrl) {
     mainWindow.webContents.on('did-finish-load', () => {
@@ -54,12 +61,6 @@ function createWindow () {
   mainWindow.on('focus', function () {
     mainWindow.webContents.send('browser:focus')
   })
-
-  if (isDev) {
-    installExtension(VUEJS_DEVTOOLS).then(() => {
-      mainWindow.addDevToolsExtension(VUEJS_DEVTOOLS)
-    })
-  }
 }
 
 function buildMenu() {
