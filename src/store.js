@@ -35,8 +35,9 @@ export default new Vuex.Store({
     setInsertMode ({ commit }) {
       commit('SET_MODE', 'insert')
     },
-    setHintMode ({ commit }) {
+    setHintMode ({ commit, dispatch }) {
       commit('SET_MODE', 'hint')
+      dispatch('setHint', true)
     },
     addTab ({ commit, dispatch, state }, options = {}) {
       const tab = {
@@ -53,6 +54,7 @@ export default new Vuex.Store({
         goForward: false,
         inspect: false,
         focusWebview: false,
+        hint: false,
         scrollToTop: false,
         scrollToBottom: false,
         scrollUpHalfPage: false,
@@ -126,20 +128,23 @@ export default new Vuex.Store({
     setInspect ({ commit }, inspect) {
       commit('SET_INSPECT', inspect)
     },
-    setFocusWebview({ commit }, focus) {
+    setFocusWebview ({ commit }, focus) {
       commit('SET_FOCUS_WEBVIEW', focus)
     },
-    setScrollToTop({ commit }, scroll) {
+    setScrollToTop ({ commit }, scroll) {
       commit('SET_SCROLL_TO_TOP', scroll)
     },
-    setScrollToBottom({ commit }, scroll) {
+    setScrollToBottom ({ commit }, scroll) {
       commit('SET_SCROLL_TO_BOTTOM', scroll)
     },
-    setScrollUpHalfPage({ commit }, scroll) {
+    setScrollUpHalfPage ({ commit }, scroll) {
       commit('SET_SCROLL_UP_HALF_PAGE', scroll)
     },
-    setScrollDownHalfPage({ commit }, scroll) {
+    setScrollDownHalfPage ({ commit }, scroll) {
       commit('SET_SCROLL_DOWN_HALF_PAGE', scroll)
+    },
+    setHint ({ commit }, hint) {
+      commit('SET_HINT', hint)
     }
   },
   mutations: {
@@ -196,6 +201,9 @@ export default new Vuex.Store({
     },
     SET_FOCUS_WEBVIEW (state, focus) {
       state.tabs[state.activeIndex].focusWebview = focus
+    },
+    SET_HINT (state, hint) {
+      state.tabs[state.activeIndex].hint = hint
     },
     SET_SCROLL_TO_TOP (state, scroll) {
       state.tabs[state.activeIndex].scrollToTop = scroll

@@ -54,6 +54,7 @@ export default {
       'addTab',
       'setFocusWebview',
       'setUpdateWebviewUrl',
+      'setHint',
       'setScrollToTop',
       'setScrollToBottom',
       'setScrollUpHalfPage',
@@ -85,11 +86,6 @@ export default {
     mode: function (mode, previousMode) {
       if (mode === 'normal') {
         this.$refs.webview.blur()
-      }
-
-      if (mode === 'hint' && this.active) {
-        this.$refs.webview.focus()
-        this.$refs.webview.send('hints:show')
       }
 
       if (previousMode === 'hint') {
@@ -139,6 +135,13 @@ export default {
       if (updateWebviewUrl) {
         this.url = this.tab.url
         this.setUpdateWebviewUrl({ index: this.index, update: false })
+      }
+    },
+    'tab.hint': function (hint) {
+      if (hint) {
+        this.$refs.webview.focus()
+        this.$refs.webview.send('hints:show')
+        this.setHint(false)
       }
     },
     'tab.scrollToTop': function (scroll) {

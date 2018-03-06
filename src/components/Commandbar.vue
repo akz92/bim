@@ -115,7 +115,8 @@ export default {
       'setGoForward',
       'setReload',
       'setStop',
-      'setInspect'
+      'setInspect',
+      'setHintMode'
     ]),
     submit: function () {
       var command = this.commandParser(this.text)
@@ -177,6 +178,9 @@ export default {
             if (command.property === 'navbar') {
               this.setNavbarActive(command.value === 'show')
             }
+            break;
+          case 'hints':
+            this.setHintMode(true)
             break;
         }
       }
