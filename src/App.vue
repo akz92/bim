@@ -39,7 +39,6 @@ export default {
       'setFocusWebview',
       'setNormalMode',
       'setInsertMode',
-      'setHintMode',
       'setCommandbarActive',
       'setScrollToTop',
       'setScrollToBottom',
@@ -71,6 +70,7 @@ export default {
         this.$mousetrap.bind('y y', this.yank)
         this.$mousetrap.bind('w i', this.inspect)
         this.$mousetrap.bind('f', this.hints)
+        this.$mousetrap.bind('F', this.hintsTab)
         this.$mousetrap.bind('G', this.scrollToBottom)
         this.$mousetrap.bind('g g', this.scrollToTop)
         this.$mousetrap.bind('ctrl+u', this.scrollUpHalfPage)
@@ -89,6 +89,7 @@ export default {
         this.$mousetrap.unbind('y y')
         this.$mousetrap.unbind('w i')
         this.$mousetrap.unbind('f')
+        this.$mousetrap.unbind('F')
         this.$mousetrap.unbind('G')
         this.$mousetrap.unbind('g g')
         this.$mousetrap.unbind('ctrl+u')
@@ -129,7 +130,10 @@ export default {
       this.$bus.$emit('commandbar:inspect', ev)
     },
     hints: function (ev) {
-      this.setHintMode()
+      this.$bus.$emit('commandbar:hints', ev)
+    },
+    hintsTab: function (ev) {
+      this.$bus.$emit('commandbar:hints-tab', ev)
     },
     scrollToTop: function (ev) {
       this.setScrollToTop(true)

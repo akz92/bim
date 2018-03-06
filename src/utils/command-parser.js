@@ -15,7 +15,10 @@ const commands = [
           }
         ]
       },
-      { name: 'hints' },
+      {
+        name: 'hints',
+        flags: ['t']
+      },
       { name: 'tab-close' },
       { name: 'tab-focus' },
       { name: 'tab-clone' },

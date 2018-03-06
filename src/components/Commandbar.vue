@@ -34,6 +34,8 @@ export default {
     this.$bus.$on('commandbar:tab-prev', this.setTabPrev)
     this.$bus.$on('commandbar:yank', this.setYank)
     this.$bus.$on('commandbar:inspect', this.setInspect)
+    this.$bus.$on('commandbar:hints', this.setHints)
+    this.$bus.$on('commandbar:hints-tab', this.setHintsTab)
   },
   computed: {
     ...mapState({
@@ -101,6 +103,18 @@ export default {
       ev.preventDefault()
 
       this.text = ':inspect'
+      this.submit()
+    },
+    setHints: function (ev) {
+      ev.preventDefault()
+
+      this.text = ':hints'
+      this.submit()
+    },
+    setHintsTab: function (ev) {
+      ev.preventDefault()
+
+      this.text = ':hints -t'
       this.submit()
     },
     commandParser,
@@ -180,7 +194,7 @@ export default {
             }
             break;
           case 'hints':
-            this.setHintMode(true)
+            this.setHintMode(command.flag === 't')
             break;
         }
       }

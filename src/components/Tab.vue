@@ -55,6 +55,7 @@ export default {
       'setFocusWebview',
       'setUpdateWebviewUrl',
       'setHint',
+      'setHintTab',
       'setScrollToTop',
       'setScrollToBottom',
       'setScrollUpHalfPage',
@@ -142,6 +143,13 @@ export default {
         this.$refs.webview.focus()
         this.$refs.webview.send('hints:show')
         this.setHint(false)
+      }
+    },
+    'tab.hintTab': function (hint) {
+      if (hint) {
+        this.$refs.webview.focus()
+        this.$refs.webview.send('hints:show-tab')
+        this.setHintTab(false)
       }
     },
     'tab.scrollToTop': function (scroll) {

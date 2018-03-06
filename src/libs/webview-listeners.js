@@ -25,4 +25,5 @@ ipcRenderer.on('scroll:up:halfpage', pageScroll.scrollUpHalfPage)
 
 // Hints
 ipcRenderer.on('hints:show', () => linkHints.activateLinkHintsMode())
+ipcRenderer.on('hints:show-tab', linkHints.activateLinkHintsModeToOpenInNewTab)
 ipcRenderer.on('hints:hide', linkHints.deactivateLinkHintsMode)
