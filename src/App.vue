@@ -40,7 +40,11 @@ export default {
       'setNormalMode',
       'setInsertMode',
       'setHintMode',
-      'setCommandbarActive'
+      'setCommandbarActive',
+      'setScrollToTop',
+      'setScrollToBottom',
+      'setScrollUpHalfPage',
+      'setScrollDownHalfPage'
     ]),
     updateSize: function () {
       this.width = document.documentElement.clientWidth + 'px'
@@ -67,6 +71,10 @@ export default {
         this.$mousetrap.bind('y y', this.yank)
         this.$mousetrap.bind('w i', this.inspect)
         this.$mousetrap.bind('f', this.hints)
+        this.$mousetrap.bind('G', this.scrollToBottom)
+        this.$mousetrap.bind('g g', this.scrollToTop)
+        this.$mousetrap.bind('ctrl+u', this.scrollUpHalfPage)
+        this.$mousetrap.bind('ctrl+d', this.scrollDownHalfPage)
       } else {
         this.$mousetrap.unbind(':')
         this.$mousetrap.unbind('i')
@@ -81,6 +89,10 @@ export default {
         this.$mousetrap.unbind('y y')
         this.$mousetrap.unbind('w i')
         this.$mousetrap.unbind('f')
+        this.$mousetrap.unbind('G')
+        this.$mousetrap.unbind('g g')
+        this.$mousetrap.unbind('ctrl+u')
+        this.$mousetrap.unbind('ctrl+d')
       }
     },
     openUrl: function (ev, url) {
@@ -118,6 +130,18 @@ export default {
     },
     hints: function (ev) {
       this.setHintMode()
+    },
+    scrollToTop: function (ev) {
+      this.setScrollToTop(true)
+    },
+    scrollToBottom: function (ev) {
+      this.setScrollToBottom(true)
+    },
+    scrollUpHalfPage: function (ev) {
+      this.setScrollUpHalfPage(true)
+    },
+    scrollDownHalfPage: function (ev) {
+      this.setScrollDownHalfPage(true)
     }
   },
   watch: {

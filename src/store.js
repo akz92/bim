@@ -53,6 +53,10 @@ export default new Vuex.Store({
         goForward: false,
         inspect: false,
         focusWebview: false,
+        scrollToTop: false,
+        scrollToBottom: false,
+        scrollUpHalfPage: false,
+        scrollDownHalfPage: false,
         ...options
       }
 
@@ -124,6 +128,18 @@ export default new Vuex.Store({
     },
     setFocusWebview({ commit }, focus) {
       commit('SET_FOCUS_WEBVIEW', focus)
+    },
+    setScrollToTop({ commit }, scroll) {
+      commit('SET_SCROLL_TO_TOP', scroll)
+    },
+    setScrollToBottom({ commit }, scroll) {
+      commit('SET_SCROLL_TO_BOTTOM', scroll)
+    },
+    setScrollUpHalfPage({ commit }, scroll) {
+      commit('SET_SCROLL_UP_HALF_PAGE', scroll)
+    },
+    setScrollDownHalfPage({ commit }, scroll) {
+      commit('SET_SCROLL_DOWN_HALF_PAGE', scroll)
     }
   },
   mutations: {
@@ -180,6 +196,18 @@ export default new Vuex.Store({
     },
     SET_FOCUS_WEBVIEW (state, focus) {
       state.tabs[state.activeIndex].focusWebview = focus
+    },
+    SET_SCROLL_TO_TOP (state, scroll) {
+      state.tabs[state.activeIndex].scrollToTop = scroll
+    },
+    SET_SCROLL_TO_BOTTOM (state, scroll) {
+      state.tabs[state.activeIndex].scrollToBottom = scroll
+    },
+    SET_SCROLL_UP_HALF_PAGE (state, scroll) {
+      state.tabs[state.activeIndex].scrollUpHalfPage = scroll
+    },
+    SET_SCROLL_DOWN_HALF_PAGE (state, scroll) {
+      state.tabs[state.activeIndex].scrollDownHalfPage = scroll
     }
   },
   plugins: [createPersistedState()]

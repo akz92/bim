@@ -53,7 +53,11 @@ export default {
       'setNormalMode',
       'addTab',
       'setFocusWebview',
-      'setUpdateWebviewUrl'
+      'setUpdateWebviewUrl',
+      'setScrollToTop',
+      'setScrollToBottom',
+      'setScrollUpHalfPage',
+      'setScrollDownHalfPage'
     ]),
     ipcHandler: function (ev) {
       if ((ev.channel === 'window:focus') && (this.mode === 'normal')) {
@@ -135,6 +139,30 @@ export default {
       if (updateWebviewUrl) {
         this.url = this.tab.url
         this.setUpdateWebviewUrl({ index: this.index, update: false })
+      }
+    },
+    'tab.scrollToTop': function (scroll) {
+      if (scroll) {
+        this.$refs.webview.send('scroll:top')
+        this.setScrollToTop(false)
+      }
+    },
+    'tab.scrollToBottom': function (scroll) {
+      if (scroll) {
+        this.$refs.webview.send('scroll:bottom')
+        this.setScrollToBottom(false)
+      }
+    },
+    'tab.scrollUpHalfPage': function (scroll) {
+      if (scroll) {
+        this.$refs.webview.send('scroll:up:halfpage')
+        this.setScrollUpHalfPage(false)
+      }
+    },
+    'tab.scrollDownHalfPage': function (scroll) {
+      if (scroll) {
+        this.$refs.webview.send('scroll:down:halfpage')
+        this.setScrollDownHalfPage(false)
       }
     }
   }
