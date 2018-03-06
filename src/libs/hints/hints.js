@@ -344,7 +344,7 @@ function numberToHintString(number, numHintDigits) {
 
 function simulateClick(link, openInNewTab) {
   if (openInNewTab) {
-    window.open(lik, "_blank");
+    window.open(link, "_blank");
   } else {
     link.click();
   }

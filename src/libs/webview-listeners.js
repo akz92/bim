@@ -17,8 +17,12 @@ document.addEventListener('hint:focusinput', function () {
   ipcRenderer.sendToHost('hint:focusinput')
 })
 
-// Navigation events
+// Navigation
 ipcRenderer.on('scroll:top', pageScroll.goToPageTop)
 ipcRenderer.on('scroll:bottom', pageScroll.goToPageBottom)
 ipcRenderer.on('scroll:down:halfpage', pageScroll.scrollDownHalfPage)
 ipcRenderer.on('scroll:up:halfpage', pageScroll.scrollUpHalfPage)
+
+// Hints
+ipcRenderer.on('hints:show', () => linkHints.activateLinkHintsMode())
+ipcRenderer.on('hints:hide', linkHints.deactivateLinkHintsMode)

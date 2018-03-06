@@ -89,11 +89,11 @@ export default {
 
       if (mode === 'hint' && this.active) {
         this.$refs.webview.focus()
-        this.$refs.webview.executeJavaScript('linkHints.activateLinkHintsMode()')
+        this.$refs.webview.send('hints:show')
       }
 
       if (previousMode === 'hint') {
-        this.$refs.webview.executeJavaScript('linkHints.deactivateLinkHintsMode()')
+        this.$refs.webview.send('hints:hide')
       }
     },
     'tab.reload': function (reload) {
