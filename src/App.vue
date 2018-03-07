@@ -23,6 +23,7 @@ export default {
     }
   },
   mounted: function () {
+    this.setNormalMode()
     window.addEventListener('resize', this.updateSize)
     this.updateSize()
     this.handleShortcuts()

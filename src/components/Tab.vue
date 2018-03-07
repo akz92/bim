@@ -25,7 +25,8 @@ export default {
   props: ['index'],
   data: function () {
     return {
-      url: null
+      url: null,
+      domReady: false
     }
   },
   mounted: function () {
@@ -77,6 +78,7 @@ export default {
       var canGoBack = this.$refs.webview.canGoBack(),
           canGoForward = this.$refs.webview.canGoForward()
 
+      this.domReady = true
       this.setCanGoBack({ index: this.index, canGoBack })
       this.setCanGoForward({ index: this.index, canGoForward })
     },
@@ -87,6 +89,7 @@ export default {
   watch: {
     mode: function (mode, previousMode) {
       if (this.index !== this.activeIndex) return
+      if (!this.domReady) return
 
       if (mode !== 'insert') {
         this.$refs.webview.blur()
