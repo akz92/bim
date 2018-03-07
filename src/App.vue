@@ -68,6 +68,7 @@ export default {
         this.$mousetrap.bind('J', this.tabPrev)
         this.$mousetrap.bind('K', this.tabNext)
         this.$mousetrap.bind('y y', this.yank)
+        this.$mousetrap.bind('y f', this.yankHint)
         this.$mousetrap.bind('w i', this.inspect)
         this.$mousetrap.bind('f', this.hints)
         this.$mousetrap.bind('F', this.hintsTab)
@@ -125,6 +126,9 @@ export default {
     },
     yank: function (ev) {
       this.$bus.$emit('commandbar:yank', ev)
+    },
+    yankHint: function (ev) {
+      this.$bus.$emit('commandbar:yank-hint', ev)
     },
     inspect: function (ev) {
       this.$bus.$emit('commandbar:inspect', ev)

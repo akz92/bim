@@ -35,11 +35,13 @@ export default new Vuex.Store({
     setInsertMode ({ commit }) {
       commit('SET_MODE', 'insert')
     },
-    setHintMode ({ commit, dispatch }, tab) {
+    setHintMode ({ commit, dispatch }, { tab, yank }) {
       commit('SET_MODE', 'hint')
 
       if (tab) {
         dispatch('setHintTab', true)
+      } else if (yank) {
+        dispatch('setHintYank', true)
       } else {
         dispatch('setHint', true)
       }
@@ -61,6 +63,7 @@ export default new Vuex.Store({
         focusWebview: false,
         hint: false,
         hintTab: false,
+        hintYank: false,
         scrollToTop: false,
         scrollToBottom: false,
         scrollUpHalfPage: false,
@@ -158,6 +161,9 @@ export default new Vuex.Store({
     },
     setHintTab ({ commit }, hint) {
       commit('SET_HINT_TAB', hint)
+    },
+    setHintYank ({ commit }, hint) {
+      commit('SET_HINT_YANK', hint)
     }
   },
   mutations: {
@@ -220,6 +226,9 @@ export default new Vuex.Store({
     },
     SET_HINT_TAB (state, hint) {
       state.tabs[state.activeIndex].hintTab = hint
+    },
+    SET_HINT_YANK (state, hint) {
+      state.tabs[state.activeIndex].hintYank = hint
     },
     SET_SCROLL_TO_TOP (state, scroll) {
       state.tabs[state.activeIndex].scrollToTop = scroll

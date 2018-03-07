@@ -16,6 +16,10 @@ document.addEventListener('hint:close', function () {
   ipcRenderer.sendToHost('hint:close')
 })
 
+document.addEventListener('hint:yank', function (ev) {
+  ipcRenderer.sendToHost('hint:yank', ev.detail.url)
+})
+
 document.addEventListener('hint:focusinput', function () {
   ipcRenderer.sendToHost('hint:focusinput')
 })
@@ -29,4 +33,5 @@ ipcRenderer.on('scroll:up:halfpage', pageScroll.scrollUpHalfPage)
 // Hints
 ipcRenderer.on('hints:show', () => linkHints.activateLinkHintsMode())
 ipcRenderer.on('hints:show-tab', linkHints.activateLinkHintsModeToOpenInNewTab)
+ipcRenderer.on('hints:show-yank', linkHints.activeLinkHinstModeYank)
 ipcRenderer.on('hints:hide', linkHints.deactivateLinkHintsMode)

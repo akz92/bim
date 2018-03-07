@@ -33,6 +33,7 @@ export default {
     this.$bus.$on('commandbar:tab-next', this.setTabNext)
     this.$bus.$on('commandbar:tab-prev', this.setTabPrev)
     this.$bus.$on('commandbar:yank', this.setYank)
+    this.$bus.$on('commandbar:yank-hint', this.setYankHint)
     this.$bus.$on('commandbar:inspect', this.setInspect)
     this.$bus.$on('commandbar:hints', this.setHints)
     this.$bus.$on('commandbar:hints-tab', this.setHintsTab)
@@ -97,6 +98,12 @@ export default {
       ev.preventDefault()
 
       this.text = ':yank'
+      this.submit()
+    },
+    setYankHint: function (ev) {
+      ev.preventDefault()
+
+      this.text = ':hints -y'
       this.submit()
     },
     setInspect: function (ev) {
@@ -194,7 +201,7 @@ export default {
             }
             break;
           case 'hints':
-            this.setHintMode(command.flag === 't')
+            this.setHintMode({ tab: command.flag === 't', yank: command.flag === 'y' })
             break;
         }
       }

@@ -17,7 +17,7 @@ const commands = [
       },
       {
         name: 'hints',
-        flags: ['t']
+        flags: ['t', 'y']
       },
       { name: 'tab-close' },
       { name: 'tab-focus' },

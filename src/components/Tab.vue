@@ -56,6 +56,7 @@ export default {
       'setUpdateWebviewUrl',
       'setHint',
       'setHintTab',
+      'setHintYank',
       'setScrollToTop',
       'setScrollToBottom',
       'setScrollUpHalfPage',
@@ -68,6 +69,8 @@ export default {
         this.setNormalMode()
       } else if (ev.channel === 'hint:focusinput') {
         this.setInsertMode()
+      } else if (ev.channel === 'hint:yank') {
+        this.$electron.clipboard.writeText(ev.args[0])
       }
     },
     evaluateNavigation: function () {
@@ -151,6 +154,13 @@ export default {
         this.$refs.webview.focus()
         this.$refs.webview.send('hints:show-tab')
         this.setHintTab(false)
+      }
+    },
+    'tab.hintYank': function (hint) {
+      if (hint) {
+        this.$refs.webview.focus()
+        this.$refs.webview.send('hints:show-yank')
+        this.setHintYank(false)
       }
     },
     'tab.scrollToTop': function (scroll) {

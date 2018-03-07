@@ -9,24 +9,29 @@ var shouldOpenLinkHintInNewTab = false;
 var shouldOpenLinkHintWithQueue = false;
 // Whether link hint's "open in current/new tab" setting is currently toggled
 var openLinkModeToggle = false;
+var shouldYankLinkHint = false;
 
 // We need this as a top-level function because our command system doesn't yet support arguments.
-function activateLinkHintsModeToOpenInNewTab() { activateLinkHintsMode(true, false); }
+function activateLinkHintsModeToOpenInNewTab() { activateLinkHintsMode(['tab']); }
 
-function activateLinkHintsModeWithQueue() { activateLinkHintsMode(true, true); }
+function activateLinkHintsModeWithQueue() { activateLinkHintsMode(['tab', 'queue']); }
 
-function activateLinkHintsMode(openInNewTab, withQueue) {
+function activeLinkHinstModeYank() { activateLinkHintsMode(['yank']); }
+
+function activateLinkHintsMode(mode) {
   linkHintsModeActivated = true;
-  setOpenLinkMode(openInNewTab, withQueue);
+  setOpenLinkMode(mode);
   buildLinkHints();
   document.activeElement.blur();
   document.addEventListener("keydown", onKeyDownInLinkHintsMode, true);
   document.addEventListener("keyup", onKeyUpInLinkHintsMode, true);
 }
 
-function setOpenLinkMode(openInNewTab, withQueue) {
-  shouldOpenLinkHintInNewTab = openInNewTab;
-  shouldOpenLinkHintWithQueue = withQueue;
+function setOpenLinkMode(mode = []) {
+  shouldOpenLinkHintInNewTab = mode.indexOf('tab') > -1;
+  shouldOpenLinkHintWithQueue = mode.indexOf('queue') > -1;
+  shouldYankLinkHint = mode.indexOf('yank') > -1;
+
   return;
 }
 
@@ -278,6 +283,9 @@ function updateLinkHints() {
         simulateClick(matchedLink, true);
         matchedLink.focus();
         deactivateLinkHintsMode();
+      } else if (shouldYankLinkHint) {
+        document.dispatchEvent(new CustomEvent('hint:yank', { detail: { url: matchedLink.href } }))
+        deactivateLinkHintsMode();
       } else {
         setTimeout(function() { simulateClick(matchedLink, false); }, 400);
         matchedLink.focus();
@@ -398,7 +406,8 @@ function createMarkerFor(link, linkHintNumber, linkHintDigits) {
 global.linkHints = {
   deactivateLinkHintsMode,
   activateLinkHintsMode,
-  activateLinkHintsModeToOpenInNewTab
+  activateLinkHintsModeToOpenInNewTab,
+  activeLinkHinstModeYank
 }
 
 // Key codes
