@@ -124,4 +124,4 @@ function loadLinkHintsCss() {
   document.body.appendChild(node);
 }
 
-window.onload = loadLinkHintsCss;
+document.onreadystatechange = loadLinkHintsCss;
