@@ -267,10 +267,14 @@ function updateLinkHints() {
     document.dispatchEvent(new Event('hint:close'));
   } else if (linksMatched.length === 1) {
     var matchedLink = linksMatched[0];
-    if (isSelectable(matchedLink)) {
+    if (isFocusable(matchedLink)) {
       matchedLink.focus();
-      // When focusing a textbox, put the selection caret at the end of the textbox's contents.
+
+      // When focusing a textbox, put the selection caret at the end of the textbox's contents. Change type temporarily to be able to set selection of unsupported input types like email and number
+      var type = matchedLink.type;
+      matchedLink.type = 'text';
       matchedLink.setSelectionRange(matchedLink.value.length, matchedLink.value.length);
+      matchedLink.type = type;
       deactivateLinkHintsMode();
       document.dispatchEvent(new Event('hint:focusinput'));
     } else {
@@ -297,13 +301,8 @@ function updateLinkHints() {
   }
 }
 
-/*
- * Selectable means the element has a text caret; this is not the same as "focusable".
- */
-function isSelectable(element) {
-  var selectableTypes = ["search", "text", "password"];
-  return (element.tagName === "INPUT" && selectableTypes.indexOf(element.type) >= 0) ||
-      element.tagName === "TEXTAREA";
+function isFocusable(element) {
+  return (element.tagName === "INPUT") || (element.tagName === "TEXTAREA");
 }
 
 /*
