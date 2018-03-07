@@ -117,7 +117,9 @@ export default {
   font-style: normal;
   overflow: hidden;
   padding-left: 5px;
+  pointer-events: none;
   text-overflow: ellipsis;
+  user-select: none;
   white-space: nowrap;
 }
 
@@ -148,10 +150,12 @@ export default {
   font-size: 12px;
   height: 100%;
   line-height: 100%;
+  pointer-events: none;
   position: absolute;
   right: 0;
   text-align: center;
   text-transform: uppercase;
+  user-select: none;
   width: 70px;
 }
 
