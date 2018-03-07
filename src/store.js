@@ -74,6 +74,7 @@ export default new Vuex.Store({
 
       commit('ADD_TAB', tab)
       dispatch('setActiveIndex', state.tabs.indexOf(tab))
+      dispatch('setNormalMode')
     },
     closeTab ({ commit, dispatch, state }, index) {
       commit('CLOSE_TAB', index)
@@ -83,8 +84,10 @@ export default new Vuex.Store({
       } else if ((index < state.activeIndex) || (state.activeIndex > state.tabs.length - 1)) {
         dispatch('setActiveIndex', state.activeIndex - 1)
       }
+
+      dispatch('setNormalMode')
     },
-    setActiveIndex ({ commit, state }, index) {
+    setActiveIndex ({ commit, state, dispatch }, index) {
       if (typeof index === 'string') {
         index = parseInt(index)
       }
@@ -96,6 +99,7 @@ export default new Vuex.Store({
       }
 
       commit('SET_ACTIVE_INDEX', index)
+      dispatch('setNormalMode')
     },
     setUrl ({ commit, state, dispatch }, { url, index, updateWebview }) {
       commit('SET_URL', { url: formatUrl(url), index })
