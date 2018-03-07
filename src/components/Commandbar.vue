@@ -47,6 +47,22 @@ export default {
     ...mapGetters(['url'])
   },
   methods: {
+    handleShortcuts: function () {
+      this.$nextTick(function () {
+        let trap = this.$mousetrap(this.$refs.commandbar)
+
+        if (this.active) {
+          trap.bind('ctrl+w', this.deleteWord)
+        } else {
+          trap.unbind('ctrl+w')
+        }
+      })
+    },
+    deleteWord: function () {
+      let words =  this.text.split(' ')
+      words.pop()
+      this.text = words.join(' ') || ':'
+    },
     setOpen: function (ev) {
       ev.preventDefault()
 
@@ -222,6 +238,11 @@ export default {
         this.$refs.commandbar.blur()
         this.setCommandbarActive(false)
       }
+    }
+  },
+  watch: {
+    active: function () {
+      this.handleShortcuts()
     }
   },
   directives: {
