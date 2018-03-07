@@ -77,6 +77,15 @@ export default {
         this.$mousetrap.bind('g g', this.scrollToTop)
         this.$mousetrap.bind('ctrl+u', this.scrollUpHalfPage)
         this.$mousetrap.bind('ctrl+d', this.scrollDownHalfPage)
+        this.$mousetrap.bind('meta+1', this.focusTab)
+        this.$mousetrap.bind('meta+2', this.focusTab)
+        this.$mousetrap.bind('meta+3', this.focusTab)
+        this.$mousetrap.bind('meta+4', this.focusTab)
+        this.$mousetrap.bind('meta+5', this.focusTab)
+        this.$mousetrap.bind('meta+6', this.focusTab)
+        this.$mousetrap.bind('meta+7', this.focusTab)
+        this.$mousetrap.bind('meta+8', this.focusTab)
+        this.$mousetrap.bind('meta+9', this.focusTab)
       } else {
         this.$mousetrap.unbind(':')
         this.$mousetrap.unbind('i')
@@ -96,6 +105,14 @@ export default {
         this.$mousetrap.unbind('g g')
         this.$mousetrap.unbind('ctrl+u')
         this.$mousetrap.unbind('ctrl+d')
+        this.$mousetrap.unbind('meta+1')
+        this.$mousetrap.unbind('meta+3')
+        this.$mousetrap.unbind('meta+4')
+        this.$mousetrap.unbind('meta+5')
+        this.$mousetrap.unbind('meta+6')
+        this.$mousetrap.unbind('meta+7')
+        this.$mousetrap.unbind('meta+8')
+        this.$mousetrap.unbind('meta+9')
       }
     },
     openUrl: function (ev, url) {
@@ -151,6 +168,9 @@ export default {
     },
     scrollDownHalfPage: function (ev) {
       this.setScrollDownHalfPage(true)
+    },
+    focusTab: function (ev) {
+      this.$bus.$emit('commandbar:focus', ev, parseInt(ev.key))
     }
   },
   watch: {

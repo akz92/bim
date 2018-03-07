@@ -37,6 +37,7 @@ export default {
     this.$bus.$on('commandbar:inspect', this.setInspect)
     this.$bus.$on('commandbar:hints', this.setHints)
     this.$bus.$on('commandbar:hints-tab', this.setHintsTab)
+    this.$bus.$on('commandbar:focus', this.focusTab)
   },
   computed: {
     ...mapState({
@@ -122,6 +123,12 @@ export default {
       ev.preventDefault()
 
       this.text = ':hints -t'
+      this.submit()
+    },
+    focusTab: function (ev, index) {
+      ev.preventDefault()
+
+      this.text = `:tab-focus ${index}`
       this.submit()
     },
     commandParser,
