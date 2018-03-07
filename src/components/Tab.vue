@@ -64,8 +64,6 @@ export default {
     ipcHandler: function (ev) {
       if ((ev.channel === 'window:focus') && (this.mode === 'normal')) {
         this.setInsertMode()
-      } else if ((ev.channel === 'window:blur') && (this.mode === 'insert')) {
-        this.setNormalMode()
       } else if (ev.channel === 'hint:close') {
         this.setNormalMode()
       } else if (ev.channel === 'hint:focusinput') {
@@ -85,8 +83,11 @@ export default {
   },
   watch: {
     mode: function (mode, previousMode) {
-      if (mode === 'normal') {
+      if (this.index !== this.activeIndex) return
+
+      if (mode !== 'insert') {
         this.$refs.webview.blur()
+        this.$refs.webview.send('document:activeelement:blur')
       }
 
       if (previousMode === 'hint') {

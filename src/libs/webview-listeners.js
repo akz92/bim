@@ -5,8 +5,11 @@ window.addEventListener('focus', function () {
   ipcRenderer.sendToHost('window:focus')
 })
 
-window.addEventListener('blur', function () {
-  ipcRenderer.sendToHost('window:blur')
+// Fix focus when iframe is the active element
+ipcRenderer.on('document:activeelement:blur', () => {
+  if (document.activeElement) {
+    document.activeElement.blur()
+  }
 })
 
 document.addEventListener('hint:close', function () {
