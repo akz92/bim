@@ -1,7 +1,7 @@
 <template>
   <webview
     plugins
-    preload="file:///Users/akz/dev/bim/src/utils/webview-preloader.js"
+    :preload="preload"
     ref="webview"
     :src="url"
     v-bind:class="{ active, 'with-navbar': navbarActive }"
@@ -26,7 +26,8 @@ export default {
   data: function () {
     return {
       url: null,
-      domReady: false
+      domReady: false,
+      preload: `file://${require('path').join(__static, '/webview-preloader.js')}`
     }
   },
   mounted: function () {

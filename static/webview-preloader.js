@@ -1,6 +1,6 @@
-require('../libs/hints/hints')
-require('../libs/webview-navigation')
-require('../libs/webview-listeners')
+require('./hints/hints')
+require('./webview-navigation')
+require('./webview-listeners')
 
 function loadLinkHintsCss() {
   var node = document.createElement('style');
