@@ -87,13 +87,19 @@ export default {
       this.setCanGoForward({ index: this.index, canGoForward })
     },
     updateUrl: function () {
-      this.setUrl({ index: this.index, url: this.$refs.webview.getURL() })
+      let url = this.$refs.webview.getURL()
+
+      if (url === this.tab.url) return
+
+      this.setNormalMode()
+      this.setUrl({ index: this.index, url })
     },
     searchTerm: function (findNext = false, forward = true) {
       if (this.tab.searchTerm.length) {
         this.$refs.webview.findInPage(this.tab.searchTerm, { findNext, forward })
       } else {
         this.stopSearch()
+        this.setNormalMode()
       }
     },
     stopSearch: function () {

@@ -173,8 +173,12 @@ export default new Vuex.Store({
     setHintYank ({ commit }, hint) {
       commit('SET_HINT_YANK', hint)
     },
-    setSearchTerm ({ commit }, term) {
+    setSearchTerm ({ commit, dispatch }, term) {
       commit('SET_SEARCH_TERM', term)
+
+      if (!term) {
+        dispatch('setNormalMode')
+      }
     },
     setNextTermOccurrence ({ commit }, next) {
       commit('SET_NEXT_TERM_OCCURRENCE', next)
@@ -182,8 +186,9 @@ export default new Vuex.Store({
     setPrevTermOccurrence ({ commit }, prev) {
       commit('SET_PREV_TERM_OCCURRENCE', prev)
     },
-    setSelectOccurrence ({ commit }, select) {
+    setSelectOccurrence ({ commit, dispatch }, select) {
       commit('SET_SELECT_OCCURRENCE', select)
+      dispatch('setNormalMode')
     }
   },
   mutations: {
