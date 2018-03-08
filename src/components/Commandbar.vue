@@ -160,9 +160,24 @@ export default {
       'setReload',
       'setStop',
       'setInspect',
-      'setHintMode'
+      'setHintMode',
+      'setSearchMode'
     ]),
     submit: function () {
+      let prefix = this.text[0]
+
+      if (prefix === ':') {
+        this.handleCommand()
+      } else if (prefix === '/') {
+        this.handleSearch()
+      }
+
+      this.blur()
+    },
+    handleSearch: function () {
+      this.setSearchMode(this.text.slice(1))
+    },
+    handleCommand: function () {
       var command = this.commandParser(this.text)
 
       if (command.error) {
@@ -228,8 +243,6 @@ export default {
             break;
         }
       }
-
-      this.blur()
     },
     blur: function () {
       this.text = null

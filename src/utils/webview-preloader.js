@@ -121,7 +121,7 @@ function loadLinkHintsCss() {
     }
   `;
 
-  document.body.appendChild(node);
+  document.head.appendChild(node);
 }
 
 document.onreadystatechange = loadLinkHintsCss;

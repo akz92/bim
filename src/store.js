@@ -35,6 +35,10 @@ export default new Vuex.Store({
     setInsertMode ({ commit }) {
       commit('SET_MODE', 'insert')
     },
+    setSearchMode ({ commit, dispatch }, term) {
+      commit('SET_MODE', 'search')
+      dispatch('setSearchTerm', term)
+    },
     setHintMode ({ commit, dispatch }, { tab, yank }) {
       commit('SET_MODE', 'hint')
 
@@ -53,6 +57,10 @@ export default new Vuex.Store({
         updateWebviewUrl: false,
         loading: false,
         title: 'New Tab',
+        searchTerm: null,
+        nextTermOccurrence: false,
+        prevTermOccurrence: false,
+        selectOccurrence: false,
         canGoBack: false,
         canGoForward: false,
         reload: false,
@@ -164,6 +172,18 @@ export default new Vuex.Store({
     },
     setHintYank ({ commit }, hint) {
       commit('SET_HINT_YANK', hint)
+    },
+    setSearchTerm ({ commit }, term) {
+      commit('SET_SEARCH_TERM', term)
+    },
+    setNextTermOccurrence ({ commit }, next) {
+      commit('SET_NEXT_TERM_OCCURRENCE', next)
+    },
+    setPrevTermOccurrence ({ commit }, prev) {
+      commit('SET_PREV_TERM_OCCURRENCE', prev)
+    },
+    setSelectOccurrence ({ commit }, select) {
+      commit('SET_SELECT_OCCURRENCE', select)
     }
   },
   mutations: {
@@ -241,6 +261,18 @@ export default new Vuex.Store({
     },
     SET_SCROLL_DOWN_HALF_PAGE (state, scroll) {
       state.tabs[state.activeIndex].scrollDownHalfPage = scroll
+    },
+    SET_SEARCH_TERM (state, term) {
+      state.tabs[state.activeIndex].searchTerm = term
+    },
+    SET_NEXT_TERM_OCCURRENCE (state, next) {
+      state.tabs[state.activeIndex].nextTermOccurrence = next
+    },
+    SET_PREV_TERM_OCCURRENCE (state, prev) {
+      state.tabs[state.activeIndex].prevTermOccurrence = prev
+    },
+    SET_SELECT_OCCURRENCE (state, select) {
+      state.tabs[state.activeIndex].selectOccurrence = select
     }
   },
   plugins: [createPersistedState()]

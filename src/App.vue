@@ -44,7 +44,10 @@ export default {
       'setScrollToTop',
       'setScrollToBottom',
       'setScrollUpHalfPage',
-      'setScrollDownHalfPage'
+      'setScrollDownHalfPage',
+      'setNextTermOccurrence',
+      'setPrevTermOccurrence',
+      'setSelectOccurrence'
     ]),
     updateSize: function () {
       this.width = document.documentElement.clientWidth + 'px'
@@ -59,6 +62,7 @@ export default {
     handleShortcuts: function () {
       if (this.mode == 'normal') {
         this.$mousetrap.bind(':', this.activateCommandbar)
+        this.$mousetrap.bind('/', this.activateCommandbar)
         this.$mousetrap.bind('i', this.setInsertMode)
         this.$mousetrap.bind('o', this.open)
         this.$mousetrap.bind('O', this.openTab)
@@ -114,6 +118,25 @@ export default {
         this.$mousetrap.unbind('meta+8')
         this.$mousetrap.unbind('meta+9')
       }
+
+      if (this.mode === 'search') {
+        this.$mousetrap.bind('n', this.nextOccurrence)
+        this.$mousetrap.bind('N', this.prevOccurrence)
+        this.$mousetrap.bind('enter', this.selectOccurrence)
+      } else {
+        this.$mousetrap.unbind('n')
+        this.$mousetrap.unbind('N')
+        this.$mousetrap.unbind('enter')
+      }
+    },
+    nextOccurrence: function () {
+      this.setNextTermOccurrence(true)
+    },
+    prevOccurrence: function () {
+      this.setPrevTermOccurrence(true)
+    },
+    selectOccurrence: function () {
+      this.setSelectOccurrence(true)
     },
     openUrl: function (ev, url) {
       this.addTab({ url })

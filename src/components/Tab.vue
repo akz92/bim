@@ -58,13 +58,16 @@ export default {
       'setHint',
       'setHintTab',
       'setHintYank',
+      'setNextTermOccurrence',
+      'setPrevTermOccurrence',
+      'setSelectOccurrence',
       'setScrollToTop',
       'setScrollToBottom',
       'setScrollUpHalfPage',
       'setScrollDownHalfPage'
     ]),
     ipcHandler: function (ev) {
-      if ((ev.channel === 'window:focus') && (this.mode === 'normal')) {
+      if ((ev.channel === 'window:focus') && (this.mode !== 'hint')) {
         this.setInsertMode()
       } else if (ev.channel === 'hint:close') {
         this.setNormalMode()
@@ -84,6 +87,13 @@ export default {
     },
     updateUrl: function () {
       this.setUrl({ index: this.index, url: this.$refs.webview.getURL() })
+    },
+    searchTerm: function (findNext = false, forward = true) {
+      this.$refs.webview.findInPage(this.tab.searchTerm, { findNext, forward })
+    },
+    stopSearch: function () {
+      let action = this.tab.selectOccurrence ? 'activateSelection' : 'clearSelection'
+      this.$refs.webview.stopFindInPage(action)
     }
   },
   watch: {
@@ -98,6 +108,8 @@ export default {
 
       if (previousMode === 'hint') {
         this.$refs.webview.send('hints:hide')
+      } else if (previousMode === 'search') {
+        this.stopSearch()
       }
     },
     'tab.reload': function (reload) {
@@ -164,6 +176,27 @@ export default {
         this.$refs.webview.focus()
         this.$refs.webview.send('hints:show-yank')
         this.setHintYank(false)
+      }
+    },
+    'tab.searchTerm': function () {
+      this.searchTerm()
+    },
+    'tab.nextTermOccurrence': function (next) {
+      if (next) {
+        this.searchTerm(true)
+        this.setNextTermOccurrence(false)
+      }
+    },
+    'tab.selectOccurrence': function (select) {
+      if (select) {
+        this.stopSearch()
+        this.setSelectOccurrence(false)
+      }
+    },
+    'tab.prevTermOccurrence': function (prev) {
+      if (prev) {
+        this.searchTerm(true, false)
+        this.setPrevTermOccurrence(false)
       }
     },
     'tab.scrollToTop': function (scroll) {
