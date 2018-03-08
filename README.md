@@ -8,7 +8,7 @@ Bim has a command bar similar to Vim's, to activate it press `:` while on `norma
 
 There's a limited number of commands for now, these are all of them:
 
-```
+```shell
 open # Opens a url in current tab
 open -t # Opens a url in a new tab
 reload # Reloads the current tab
@@ -21,6 +21,9 @@ back # Navigates back in tab's history
 forward # Navigates forward in tab's history
 yank # Yanks current tab's url to the clipboard
 inspect # Opens DevTools for the current tab
+hints # Shows link hints
+hints -t # Opens hint link in a new tab
+hints -y # Yank hint link
 set navbar show/hide # Hides or shows the navbar
 ```
 
@@ -30,10 +33,12 @@ set navbar show/hide # Hides or shows the navbar
 
 Keyboard shortcuts are only recognized while on `normal` mode. I've only implemented basic commands yet, this is the shortcuts currently available:
 
-```
+```shell
 i # Enter insert mode
+/ # Search in page
 o # Opens a url in current tab
 shift+o # Opens a url in a new tab
+f # Shows link hints
 r # Reloads the current tab
 x # Closes the current tab
 shift+J # Focuses on the previous tab
@@ -41,6 +46,7 @@ shift+K # Focuses on the next tab
 shift+H # Navigates back in tab's history
 shift+L # Navigates forward in tab's history
 yy # Yanks current tab's url to the clipboard
+yf # Yanks hint link
 wi # Opens DevTools for the current tab
 ```
 
