@@ -89,7 +89,11 @@ export default {
       this.setUrl({ index: this.index, url: this.$refs.webview.getURL() })
     },
     searchTerm: function (findNext = false, forward = true) {
-      this.$refs.webview.findInPage(this.tab.searchTerm, { findNext, forward })
+      if (this.tab.searchTerm.length) {
+        this.$refs.webview.findInPage(this.tab.searchTerm, { findNext, forward })
+      } else {
+        this.stopSearch()
+      }
     },
     stopSearch: function () {
       let action = this.tab.selectOccurrence ? 'activateSelection' : 'clearSelection'

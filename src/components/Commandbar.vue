@@ -256,6 +256,11 @@ export default {
   watch: {
     active: function () {
       this.handleShortcuts()
+    },
+    text: function (text) {
+      if (text && text[0] === '/') {
+        this.handleSearch()
+      }
     }
   },
   directives: {
