@@ -61,7 +61,7 @@ export default {
     deleteWord: function () {
       let words =  this.text.split(' ')
       words.pop()
-      this.text = words.join(' ') || ':'
+      this.text = words.join(' ') || this.text[0]
     },
     setOpen: function (ev) {
       ev.preventDefault()
