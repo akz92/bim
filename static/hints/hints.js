@@ -92,10 +92,23 @@ function getClickableElements() {
   var clickableElements = [];
   for (var i = 0; i < elements.length; i++) {
     var element = elements[i];
-    if (isClickable(element))
+    if (shouldYankLinkHint ? isYankable(element) : isClickable(element))
       clickableElements.push(element);
   }
   return clickableElements;
+}
+
+function isYankable(element) {
+  var name = element.nodeName.toLowerCase();
+  var role = element.getAttribute('role');
+
+  return (
+    // normal html elements that can be clicked
+    name === 'a' ||
+    name === 'button' ||
+    role === 'button' ||
+    role === 'link'
+  );
 }
 
 function isClickable(element) {
