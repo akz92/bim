@@ -17,6 +17,7 @@ tab-close N # Closes the current tab or the N-th tab (starting from 1)
 tab-focus N # Focuses on the N-th tab (starting from 1)
 tab-next # Focuses on the next tab
 tab-prev # Focuses on the previous tab
+tab-move N # Moves the current tab to the N-th position (starting from 1)
 back # Navigates back in tab's history
 forward # Navigates forward in tab's history
 yank # Yanks current tab's url to the clipboard

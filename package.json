@@ -12,6 +12,7 @@
     "release:mac": "electron-builder -m"
   },
   "dependencies": {
+    "array-move": "^1.0.0",
     "electron-is-dev": "^0.3.0",
     "electron-window-state": "^4.1.1",
     "mousetrap": "^1.6.1",

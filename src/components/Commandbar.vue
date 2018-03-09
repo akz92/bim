@@ -161,7 +161,8 @@ export default {
       'setStop',
       'setInspect',
       'setHintMode',
-      'setSearchMode'
+      'setSearchMode',
+      'changeTabIndex'
     ]),
     submit: function () {
       let prefix = this.text[0]
@@ -213,6 +214,9 @@ export default {
             break;
           case 'tab-prev':
             this.setActiveIndex(this.activeIndex - 1)
+            break;
+          case 'tab-move':
+            this.changeTabIndex({ currIndex: this.activeIndex, newIndex: command.argument - 1 })
             break;
           case 'back':
             this.setGoBack(true)

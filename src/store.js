@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import urlRegex from 'url-regex'
 import uuid from 'uuid/v4'
+import arrayMove from 'array-move'
 
 Vue.use(Vuex)
 
@@ -189,6 +190,10 @@ export default new Vuex.Store({
     setSelectOccurrence ({ commit, dispatch }, select) {
       commit('SET_SELECT_OCCURRENCE', select)
       dispatch('setNormalMode')
+    },
+    changeTabIndex ({ commit, dispatch }, { currIndex, newIndex }) {
+      commit('CHANGE_TAB_INDEX', { currIndex, newIndex })
+      dispatch('setActiveIndex', newIndex)
     }
   },
   mutations: {
@@ -278,6 +283,9 @@ export default new Vuex.Store({
     },
     SET_SELECT_OCCURRENCE (state, select) {
       state.tabs[state.activeIndex].selectOccurrence = select
+    },
+    CHANGE_TAB_INDEX (state, { currIndex, newIndex }) {
+      state.tabs = arrayMove(state.tabs, currIndex, newIndex)
     }
   },
   plugins: [createPersistedState()]
