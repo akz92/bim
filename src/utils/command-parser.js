@@ -30,7 +30,10 @@ const commands = [
       { name: 'forward' },
       { name: 'reload' },
       { name: 'stop' },
-      { name: 'inspect' },
+      {
+        name: 'inspect',
+        flags: ['b']
+      },
       { name: 'undo' },
       { name: 'yank' }
     ]

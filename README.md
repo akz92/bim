@@ -22,6 +22,7 @@ back # Navigates back in tab's history
 forward # Navigates forward in tab's history
 yank # Yanks current tab's url to the clipboard
 inspect # Opens DevTools for the current tab
+inspect -b # Opens Bim's DevTools
 hints # Shows link hints
 hints -t # Opens hint link in a new tab
 hints -y # Yank hint link

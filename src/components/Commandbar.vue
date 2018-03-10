@@ -231,7 +231,11 @@ export default {
             this.setStop(true)
             break;
           case 'inspect':
-            this.setInspect(true)
+            if (command.flag === 'b') {
+              this.$electron.ipcRenderer.send('inspect')
+            } else {
+              this.setInspect(true)
+            }
             break;
           case 'yank':
             // TODO: Display success message

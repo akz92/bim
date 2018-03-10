@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu } = require('electron')
+const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
 const isDev = require('electron-is-dev');
@@ -60,6 +60,10 @@ function createWindow () {
 
   mainWindow.on('focus', function () {
     mainWindow.webContents.send('browser:focus')
+  })
+
+  ipcMain.on('inspect', function () {
+    mainWindow.openDevTools();
   })
 }
 
