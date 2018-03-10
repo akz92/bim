@@ -2,7 +2,6 @@ const {ipcRenderer} = require('electron')
 
 // Mode changes
 window.addEventListener('focus', function () {
-  console.log('window:focus');
   ipcRenderer.sendToHost('window:focus')
 })
 
