@@ -60,7 +60,7 @@ export default {
       this.setFocusWebview(true)
     },
     handleShortcuts: function () {
-      if (this.mode == 'normal') {
+      if (this.mode === 'normal') {
         this.$mousetrap.bind(':', this.activateCommandbar)
         this.$mousetrap.bind('/', this.activateCommandbar)
         this.$mousetrap.bind('i', this.setInsertMode)
@@ -81,42 +81,39 @@ export default {
         this.$mousetrap.bind('g g', this.scrollToTop)
         this.$mousetrap.bind('ctrl+u', this.scrollUpHalfPage)
         this.$mousetrap.bind('ctrl+d', this.scrollDownHalfPage)
-        this.$mousetrap.bind('meta+1', this.focusTab)
-        this.$mousetrap.bind('meta+2', this.focusTab)
-        this.$mousetrap.bind('meta+3', this.focusTab)
-        this.$mousetrap.bind('meta+4', this.focusTab)
-        this.$mousetrap.bind('meta+5', this.focusTab)
-        this.$mousetrap.bind('meta+6', this.focusTab)
-        this.$mousetrap.bind('meta+7', this.focusTab)
-        this.$mousetrap.bind('meta+8', this.focusTab)
-        this.$mousetrap.bind('meta+9', this.focusTab)
+        this.$mousetrap.bind(['meta+1', 'meta+2', 'meta+3', 'meta+4', 'meta+5', 'meta+6', 'meta+7', 'meta+8', 'meta+9'], this.focusTab)
       } else {
-        this.$mousetrap.unbind(':')
-        this.$mousetrap.unbind('i')
-        this.$mousetrap.unbind('o')
-        this.$mousetrap.unbind('O')
-        this.$mousetrap.unbind('x')
-        this.$mousetrap.unbind('r')
-        this.$mousetrap.unbind('H')
-        this.$mousetrap.unbind('L')
-        this.$mousetrap.unbind('J')
-        this.$mousetrap.unbind('K')
-        this.$mousetrap.unbind('y y')
-        this.$mousetrap.unbind('w i')
-        this.$mousetrap.unbind('f')
-        this.$mousetrap.unbind('F')
-        this.$mousetrap.unbind('G')
-        this.$mousetrap.unbind('g g')
-        this.$mousetrap.unbind('ctrl+u')
-        this.$mousetrap.unbind('ctrl+d')
-        this.$mousetrap.unbind('meta+1')
-        this.$mousetrap.unbind('meta+3')
-        this.$mousetrap.unbind('meta+4')
-        this.$mousetrap.unbind('meta+5')
-        this.$mousetrap.unbind('meta+6')
-        this.$mousetrap.unbind('meta+7')
-        this.$mousetrap.unbind('meta+8')
-        this.$mousetrap.unbind('meta+9')
+        this.$mousetrap.unbind([
+          ':',
+          '/',
+          'i',
+          'o',
+          'O',
+          'x',
+          'r',
+          'H',
+          'L',
+          'J',
+          'K',
+          'y y',
+          'w i',
+          'f',
+          'F',
+          'G',
+          'g g',
+          'ctrl+u',
+          'ctrl+d',
+          'meta+1',
+          'meta+2',
+          'meta+3',
+          'meta+4',
+          'meta+5',
+          'meta+5',
+          'meta+6',
+          'meta+7',
+          'meta+8',
+          'meta+9'
+        ])
       }
 
       if (this.mode === 'search') {
