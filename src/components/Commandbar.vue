@@ -1,15 +1,27 @@
 <template>
-  <input
-    id="commandbar"
-    ref="commandbar"
-    v-model="text"
-    v-if="active"
-    v-focus
-    @blur="blur"
-    @keyup.enter.exact="submit"
-    @keyup.enter="blur"
-    @keyup.escape="blur"
-  />
+  <div v-if="active">
+    <div id="commandbar-suggestions" ref="suggestions" v-if="suggestions.length">
+      <div
+        class="suggestion"
+        v-for="(suggestion, index) in suggestions"
+        :key="suggestion.id"
+        v-bind:class="{ active: index === activeSuggestionIndex }"
+      >
+        {{suggestion.url}}
+      </div>
+    </div>
+
+    <input
+      id="commandbar"
+      ref="commandbar"
+      v-model="text"
+      v-focus
+      @blur="blur"
+      @keyup.enter.exact="submit"
+      @keyup.enter="blur"
+      @keyup.escape="blur"
+    />
+  </div>
 </template>
 
 <script>
@@ -20,7 +32,9 @@ export default {
   name: 'Commandbar',
   data: function () {
     return {
-      text: null
+      text: null,
+      suggestions: [],
+      activeSuggestionIndex: -1
     }
   },
   mounted: function () {
@@ -42,9 +56,16 @@ export default {
   computed: {
     ...mapState({
       activeIndex: 'activeIndex',
-      active: 'commandbarActive'
+      active: 'commandbarActive',
+      history: 'history'
     }),
-    ...mapGetters(['url'])
+    ...mapGetters(['url']),
+    suggestionsBottom: function () {
+      return window.innerHeight - this.$refs.commandbar.offsetHeight
+    },
+    suggestionsTop: function () {
+      return window.innerHeight - this.$refs.commandbar.offsetHeight - this.$refs.suggestions.offsetHeight;
+    }
   },
   methods: {
     handleShortcuts: function () {
@@ -53,10 +74,33 @@ export default {
 
         if (this.active) {
           trap.bind('ctrl+w', this.deleteWord)
+          trap.bind('tab', this.activateSuggestion)
         } else {
           trap.unbind('ctrl+w')
+          trap.unbind('tab')
         }
       })
+    },
+    activateSuggestion: function () {
+      this.activeSuggestionIndex += 1
+
+      if (this.activeSuggestionIndex > this.suggestions.length - 1) {
+        this.activeSuggestionIndex = 0
+      }
+
+      return false
+    },
+    ensureActiveSuggestionIsVisible: function () {
+      let sug = document.getElementsByClassName('suggestion active')[0]
+
+      if (!this.isScrolledIntoView(sug)) {
+        this.$refs.suggestions.scrollTop = (sug.offsetTop + sug.offsetHeight) - this.$refs.suggestions.offsetHeight
+      }
+    },
+    isScrolledIntoView: function (el) {
+      var rect = el.getBoundingClientRect();
+
+      return (rect.top >= this.suggestionsTop) && (rect.bottom <= this.suggestionsBottom);
     },
     deleteWord: function () {
       let words =  this.text.split(' ')
@@ -178,8 +222,21 @@ export default {
     handleSearch: function () {
       this.setSearchMode(this.text.slice(1))
     },
+    handleSuggestions: function () {
+      let command = this.commandParser(this.text)
+      this.suggestions = []
+      this.activeSuggestionIndex = -1
+
+      if (command.action === 'open' && command.argument) {
+        let matched = this.$search(command.argument, this.history, {
+          keys: ['title', 'url']
+        })
+
+        this.suggestions = this._.uniqBy(matched, 'url')
+      }
+    },
     handleCommand: function () {
-      var command = this.commandParser(this.text)
+      let command = this.commandParser(this.text)
 
       if (command.error) {
         // TODO: Display error message
@@ -264,10 +321,21 @@ export default {
   watch: {
     active: function () {
       this.handleShortcuts()
+      this.suggestions = []
+      this.activeSuggestionIndex = -1
     },
     text: function (text) {
-      if (text && text[0] === '/') {
+      if (!text) return
+
+      if (text[0] === '/') {
         this.handleSearch()
+      } else if (text[0] === ':') {
+        this.handleSuggestions()
+      }
+    },
+    activeSuggestionIndex: function (index) {
+      if (index >= 0) {
+        this.$nextTick(this.ensureActiveSuggestionIsVisible)
       }
     }
   },
@@ -299,5 +367,27 @@ export default {
 
 #commandbar:focus {
   outline: none;
+}
+
+#commandbar-suggestions {
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+  bottom: 30px;
+  height: 224px;
+  background: #e0e0e0;
+  overflow: auto;
+}
+
+.suggestion {
+  padding: 5px;
+  color: #4e4e4e;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.suggestion.active {
+  background: #c1c1c1;
 }
 </style>

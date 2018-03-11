@@ -10,6 +10,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     tabs: [],
+    history: [],
     mode: 'normal',
     activeIndex: null,
     navbarActive: true,
@@ -55,6 +56,7 @@ export default new Vuex.Store({
       const tab = {
         id: uuid(),
         url: null,
+        historyId: null,
         updateWebviewUrl: false,
         loading: false,
         title: 'New Tab',
@@ -115,6 +117,7 @@ export default new Vuex.Store({
     },
     setUrl ({ commit, state, dispatch }, { url, index, updateWebview }) {
       commit('SET_URL', { url: formatUrl(url), index })
+      commit('ADD_TO_HISTORY', index)
 
       if (updateWebview) {
         dispatch('setUpdateWebviewUrl', { index, update: true })
@@ -125,6 +128,7 @@ export default new Vuex.Store({
     },
     setTitle ({ commit, state }, { title, index }) {
       commit('SET_TITLE', { title, index })
+      commit('UPDATE_HISTORY_TITLE', { title, index })
     },
     setLoading ({ commit, state }, { loading, index }) {
       commit('SET_LOADING', { loading, index })
@@ -286,6 +290,28 @@ export default new Vuex.Store({
     },
     CHANGE_TAB_INDEX (state, { currIndex, newIndex }) {
       state.tabs = arrayMove(state.tabs, currIndex, newIndex)
+    },
+    ADD_TO_HISTORY (state, index) {
+      let tab = state.tabs[index]
+      let id = uuid()
+
+      state.history.push({
+        id,
+        url: tab.url,
+        title: tab.title,
+        date: (new Date()).toLocaleString()
+      })
+
+      tab.historyId = id
+    },
+    UPDATE_HISTORY_TITLE (state, { title, index }) {
+      let tab = state.tabs[index]
+
+      if (!tab.historyId) return
+
+      let reg = state.history.find((reg) => { return reg.id === tab.historyId })
+
+      reg.title = title
     }
   },
   plugins: [createPersistedState()]
