@@ -27,7 +27,6 @@ export default {
     window.addEventListener('resize', this.updateSize)
     this.updateSize()
     this.handleShortcuts()
-    this.$mousetrap.bind('esc', this.setNormalMode)
     this.$electron.ipcRenderer.on('add-tab', this.openUrl)
     this.$electron.ipcRenderer.on('browser:focus', this.focusActiveWebview)
   },
@@ -60,6 +59,10 @@ export default {
       this.setFocusWebview(true)
     },
     handleShortcuts: function () {
+      this.$mousetrap.reset()
+
+      this.$mousetrap.bind('esc', this.setNormalMode)
+
       if (this.mode === 'normal') {
         this.$mousetrap.bind(':', this.activateCommandbar)
         this.$mousetrap.bind('/', this.activateCommandbar)
@@ -82,48 +85,10 @@ export default {
         this.$mousetrap.bind('ctrl+u', this.scrollUpHalfPage)
         this.$mousetrap.bind('ctrl+d', this.scrollDownHalfPage)
         this.$mousetrap.bind(['meta+1', 'meta+2', 'meta+3', 'meta+4', 'meta+5', 'meta+6', 'meta+7', 'meta+8', 'meta+9'], this.focusTab)
-      } else {
-        this.$mousetrap.unbind([
-          ':',
-          '/',
-          'i',
-          'o',
-          'O',
-          'x',
-          'r',
-          'H',
-          'L',
-          'J',
-          'K',
-          'y y',
-          'w i',
-          'f',
-          'F',
-          'G',
-          'g g',
-          'ctrl+u',
-          'ctrl+d',
-          'meta+1',
-          'meta+2',
-          'meta+3',
-          'meta+4',
-          'meta+5',
-          'meta+5',
-          'meta+6',
-          'meta+7',
-          'meta+8',
-          'meta+9'
-        ])
-      }
-
-      if (this.mode === 'search') {
+      } else if (this.mode === 'search') {
         this.$mousetrap.bind('n', this.nextOccurrence)
         this.$mousetrap.bind('N', this.prevOccurrence)
         this.$mousetrap.bind('enter', this.selectOccurrence)
-      } else {
-        this.$mousetrap.unbind('n')
-        this.$mousetrap.unbind('N')
-        this.$mousetrap.unbind('enter')
       }
     },
     nextOccurrence: function () {
